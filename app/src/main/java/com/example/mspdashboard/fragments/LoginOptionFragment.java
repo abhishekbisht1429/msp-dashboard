@@ -20,6 +20,9 @@ import com.example.mspdashboard.activity.LoginActivity;
 public class LoginOptionFragment extends Fragment {
 
 
+    public static final int STUDENT_LOGIN = 1;
+    public static final int FACULTY_LOGIN = 2;
+
     public LoginOptionFragment() {
         // Required empty public constructor
     }
