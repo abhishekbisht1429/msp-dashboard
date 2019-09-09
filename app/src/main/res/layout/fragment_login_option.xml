@@ -4,29 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.LoginOptionFragment" >
+    tools:context=".fragment.login.LoginOptionFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/button_login_student"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/student_login"
+        app:layout_constraintBottom_toTopOf="@+id/button_login_faculty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button_login_facutly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Faculty Login" />
+    <Button
+        android:id="@+id/button_login_faculty"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/faculty_login"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/button_login_student"
+        app:layout_constraintStart_toStartOf="@+id/button_login_student"
+        app:layout_constraintTop_toBottomOf="@+id/button_login_student" />
 
-        <Button
-            android:id="@+id/button_login_student"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Student Login" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:text="Please Select a Login Type"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button_login_faculty"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="@+id/button_login_faculty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

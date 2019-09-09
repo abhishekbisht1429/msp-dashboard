@@ -1,4 +1,4 @@
-package com.example.mspdashboard;
+package com.upes.mspdashboard;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.example.mspdashboard;
+package com.upes.mspdashboard;
 
 import org.junit.Test;
 
