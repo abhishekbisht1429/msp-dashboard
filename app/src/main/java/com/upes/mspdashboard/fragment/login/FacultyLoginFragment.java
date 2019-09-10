@@ -22,9 +22,6 @@ import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,8 +94,9 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                         LoginResponse loginResponse = response.body();
                         if(loginResponse!=null) {
                             SessionManager.getInstance(FacultyLoginFragment.this.getContext())
-                                    .login(loginResponse.getAuthToken());
+                                    .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_FACULTY);
                             Log.i(TAG, "auth token : " + loginResponse.getAuthToken());
+                            mListener.onFacultyLogin(true, null);
                         }
                         else {
                             Log.i(TAG, "loginresponse is null " + response.code());
@@ -108,6 +106,7 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                             } catch (IOException ioe) {
                                 ioe.printStackTrace();
                             }
+                            mListener.onFacultyLogin(false, "Failed to authenticate");
                         }
                     }
 
@@ -115,11 +114,12 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         t.printStackTrace();
                         Log.i(TAG,"error");
+                        mListener.onFacultyLogin(false, "network error");
                     }
                 });
     }
 
     public interface OnFragmentInteractionListener {
-        void onFacultyLogin();
+        void onFacultyLogin(boolean authenticated, String errorMsg);
     }
 }

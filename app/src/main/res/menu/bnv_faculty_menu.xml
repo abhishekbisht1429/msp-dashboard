@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_proposals"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Item"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_curent_projects"
+        android:icon="@drawable/ic_security_black_24dp"
+        android:title="Item"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Item"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_ac"
+        android:icon="@drawable/ic_security_black_24dp"
+        android:title="Item"
+        android:visible="true" />
+</menu>

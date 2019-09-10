@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.upes.mspdashboard.R;
+import com.upes.mspdashboard.activity.faculty.FacultyHomeActivity;
 import com.upes.mspdashboard.fragment.login.FacultyLoginFragment;
 import com.upes.mspdashboard.fragment.login.LoginOptionFragment;
 import com.upes.mspdashboard.fragment.login.StudentLoginFragment;
@@ -26,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements
         setCurrentFragment(LoginOptionFragment.getInstance(),false);
     }
 
-    void makeToask(String msg) {
+    void makeToast(String msg) {
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
@@ -49,8 +51,13 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFacultyLogin() {
-
+    public void onFacultyLogin(boolean authenticated, String errorMsg) {
+        if(authenticated) {
+            startActivity(new Intent(this, FacultyHomeActivity.class));
+            this.finish();
+        } else {
+            makeToast("Authentication Failure: "+errorMsg);
+        }
     }
 
     @Override

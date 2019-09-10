@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.upes.mspdashboard.R;
+import com.upes.mspdashboard.activity.faculty.FacultyHomeActivity;
+import com.upes.mspdashboard.util.SessionManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,10 +19,18 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        final int sessionType = SessionManager.getInstance(this).getSessionType();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                if(sessionType==SessionManager.SESSION_TYPE_FACULTY)
+                    startActivity(new Intent(SplashActivity.this, FacultyHomeActivity.class));
+                else if(sessionType==SessionManager.SESSION_TYPE_STUDENT) {
+                    //TODO: startActivity for student
+                }
+                else
+                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
                 SplashActivity.this.finish();
             }
         },SPLASH_TIME_OUT);
