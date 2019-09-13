@@ -1,8 +1,5 @@
 package com.upes.mspdashboard.util.retrofit;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -10,7 +7,7 @@ public class RetrofitApiClient {
     private static final String BASE_URL = "http://10.0.2.2:8000";
     private Retrofit retrofit;
     private static  RetrofitApiClient apiClient;
-    private LoginClient loginClient;
+    private AuthClient authClient;
     private RetrofitApiClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -24,9 +21,9 @@ public class RetrofitApiClient {
         return apiClient;
     }
 
-    public LoginClient getLoginClient() {
-        if(loginClient == null)
-            loginClient = retrofit.create(LoginClient.class);
-        return loginClient;
+    public AuthClient getAuthClient() {
+        if(authClient == null)
+            authClient = retrofit.create(AuthClient.class);
+        return authClient;
     }
 }

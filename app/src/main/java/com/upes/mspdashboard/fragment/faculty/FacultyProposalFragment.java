@@ -22,6 +22,11 @@ public class FacultyProposalFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static Fragment newInstance() {
+        Fragment fragment = new FacultyProposalFragment();
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
