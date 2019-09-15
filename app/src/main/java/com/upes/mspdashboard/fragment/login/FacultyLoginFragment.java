@@ -16,6 +16,7 @@ import android.widget.EditText;
 import androidx.appcompat.widget.Toolbar;
 
 import com.upes.mspdashboard.R;
+import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.model.User;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
@@ -88,7 +89,7 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        final User user = new User.Builder()
+        final User user = new Faculty.Builder()
                 .username(username).password(password).build();
         RetrofitApiClient.getInstance().getAuthClient().login(user)
                 .enqueue(new Callback<LoginResponse>() {
@@ -106,7 +107,7 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                                             UserTypeResponse utResponse = response.body();
                                             if(utResponse!=null) {
                                                 SessionManager.getInstance(FacultyLoginFragment.this.getContext())
-                                                        .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_FACULTY);
+                                                        .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_FACULTY,user);
                                                 Log.i(TAG,"user type : "+utResponse.getType());
                                                 mListener.onFacultyLogin(true,null);
                                             } else {

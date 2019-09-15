@@ -23,6 +23,6 @@ public interface AuthClient {
     @GET("accounts/check/{username}")
     Call<UserTypeResponse> getUserType(@HeaderMap Map<String,String> headers, @Path(value="username")String username);
 
-    @GET
-    Call<LogoutResponse> logout(@Body User user);
+    @GET("accounts/check/{username}")
+    Call<LogoutResponse> logout(@HeaderMap Map<String,String> headers, @Path(value="username")String username);
 }

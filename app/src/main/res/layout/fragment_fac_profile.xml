@@ -49,19 +49,19 @@
             <!-- TODO: Update blank fragment layout -->
 
             <TextView
-                android:id="@+id/text_view_profile_extra"
+                android:id="@+id/text_view_fac_profile_extra"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="@+id/image_view_profile"
-                app:layout_constraintEnd_toEndOf="@+id/text_view_profile_name"
-                app:layout_constraintStart_toStartOf="@+id/text_view_profile_name"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_profile_name" />
+                app:layout_constraintEnd_toEndOf="@+id/text_view_fac_profile_name"
+                app:layout_constraintStart_toStartOf="@+id/text_view_fac_profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_fac_profile_name" />
 
             <TextView
-                android:id="@+id/text_view_profile_name"
+                android:id="@+id/text_view_fac_profile_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -163,12 +163,12 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <Button
-                        android:id="@+id/button_certificate_photos"
+                        android:id="@+id/btn_fac_logout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:padding="8dp"
-                        android:text="Detail 6"
+                        android:text="Logout"
                         android:textAlignment="textStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </LinearLayout>

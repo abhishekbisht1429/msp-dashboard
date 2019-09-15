@@ -5,19 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.upes.mspdashboard.R;
+import com.upes.mspdashboard.activity.LoginActivity;
+import com.upes.mspdashboard.activity.SplashActivity;
 import com.upes.mspdashboard.fragment.faculty.CurrentProjectFragment;
 import com.upes.mspdashboard.fragment.faculty.FacultyProposalFragment;
 import com.upes.mspdashboard.fragment.faculty.ProfileFragment;
-import com.upes.mspdashboard.fragment.login.FacultyLoginFragment;
+import com.upes.mspdashboard.util.SessionManager;
 
 public class FacultyHomeActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
@@ -72,5 +73,17 @@ public class FacultyHomeActivity extends AppCompatActivity implements
             }
         }
         return true;
+    }
+
+    @Override
+    public void onFacLogout(boolean success, String errorMsg) {
+        SessionManager.getInstance(this).logout();
+        if(success) {
+            makeToast("Successfully Logged out");
+            startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+        } else {
+            makeToast(errorMsg);
+        }
     }
 }
