@@ -17,8 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.model.Faculty;
+import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.model.User;
 import com.upes.mspdashboard.util.SessionManager;
+import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
 import com.upes.mspdashboard.util.retrofit.model.UserTypeResponse;
@@ -31,26 +33,33 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FacultyLoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = "Faculty Login";
+    private static final String LOGIN_OPT_KEY = "login opt key";
     private OnFragmentInteractionListener mListener;
     private Toolbar toolbar;
     private Button btnLogin;
     private EditText etUsername;
     private EditText etPassword;
-    public FacultyLoginFragment() {
+    private int loginOpt;
+    public LoginFragment() {
         // Required empty public constructor
     }
 
-    public static FacultyLoginFragment newInstance() {
-        FacultyLoginFragment fragment = new FacultyLoginFragment();
+    public static LoginFragment newInstance(int loginOpt) {
+        LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        args.putInt(LOGIN_OPT_KEY,loginOpt);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        loginOpt = args.getInt(LOGIN_OPT_KEY);
     }
 
     @Override
@@ -83,14 +92,28 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        btnLogin.setOnClickListener(null);
     }
 
     @Override
     public void onClick(View view) {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        final User user = new Faculty.Builder()
-                .username(username).password(password).build();
+        final User user;
+        if(loginOpt == LoginOptionFragment.FACULTY_LOGIN) {
+            user = new Faculty.Builder()
+                    .username(username).password(password)
+                    .type(WebApiConstants.UserType.FACULTY).build();
+        }
+        else if(loginOpt == LoginOptionFragment.STUDENT_LOGIN) {
+            user = new Student.Builder()
+                    .username(username).password(password)
+                    .type(WebApiConstants.UserType.STUDENT)
+                    .build();
+        } else {
+            user = null;
+        }
+
         RetrofitApiClient.getInstance().getAuthClient().login(user)
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
@@ -106,10 +129,11 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                                         public void onResponse(Call<UserTypeResponse> call, Response<UserTypeResponse> response) {
                                             UserTypeResponse utResponse = response.body();
                                             if(utResponse!=null) {
-                                                SessionManager.getInstance(FacultyLoginFragment.this.getContext())
-                                                        .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_FACULTY,user);
+                                                //TODO: check the appropriate type of user to create appropriate session
+                                                SessionManager.getInstance(LoginFragment.this.getContext())
+                                                        .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_STUDENT,user);
                                                 Log.i(TAG,"user type : "+utResponse.getType());
-                                                mListener.onFacultyLogin(true,null);
+                                                mListener.onLogin(true,user,null );
                                             } else {
                                                 Log.i(TAG,"usertype response is null");
                                                 try {
@@ -117,7 +141,7 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                                                 }catch(IOException ioe) {
                                                     ioe.printStackTrace();
                                                 }
-                                                mListener.onFacultyLogin(false,"Authentication Failure");
+                                                mListener.onLogin(false,null,"Authentication Failure");
                                             }
                                         }
 
@@ -136,7 +160,7 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                             } catch (IOException ioe) {
                                 ioe.printStackTrace();
                             }
-                            mListener.onFacultyLogin(false, "Failed to authenticate");
+                            mListener.onLogin(false, null,"Failed to authenticate" );
                         }
                     }
 
@@ -144,12 +168,12 @@ public class FacultyLoginFragment extends Fragment implements View.OnClickListen
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         t.printStackTrace();
                         Log.i(TAG,"error");
-                        mListener.onFacultyLogin(false, "network error");
+                        mListener.onLogin(false, null,"network error");
                     }
                 });
     }
 
     public interface OnFragmentInteractionListener {
-        void onFacultyLogin(boolean authenticated, String errorMsg);
+        void onLogin(boolean authenticated, User user, String errorMsg);
     }
 }

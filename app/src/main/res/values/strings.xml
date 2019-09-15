@@ -7,4 +7,7 @@
     <string name="bnv_fac_projects">Projects</string>
     <string name="bnv_fac_profile">Profile</string>
     <string name="bnv_fac_coordinator">Coordinator</string>
+    <string name="bnv_stu_faculties">Faculties</string>
+    <string name="bnv_stu_item_proposals">Proposals</string>
+    <string name="bnv_stu_profile">Profile</string>
 </resources>

@@ -11,14 +11,15 @@ import android.widget.Toast;
 
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.activity.faculty.FacultyHomeActivity;
-import com.upes.mspdashboard.fragment.login.FacultyLoginFragment;
+import com.upes.mspdashboard.activity.student.StudentHomeActivity;
+import com.upes.mspdashboard.fragment.login.LoginFragment;
 import com.upes.mspdashboard.fragment.login.LoginOptionFragment;
-import com.upes.mspdashboard.fragment.login.StudentLoginFragment;
+import com.upes.mspdashboard.model.User;
+import com.upes.mspdashboard.util.WebApiConstants;
 
 public class LoginActivity extends AppCompatActivity implements
         LoginOptionFragment.OnFragmentInteractionListener,
-        StudentLoginFragment.OnFragmentInteractionListener,
-        FacultyLoginFragment.OnFragmentInteractionListener {
+        LoginFragment.OnFragmentInteractionListener {
     private FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +44,20 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onOptionSelect(int opt) {
-        if(opt==LoginOptionFragment.STUDENT_LOGIN) {
-            setCurrentFragment(StudentLoginFragment.newInstance(),true);
-        } else if(opt==LoginOptionFragment.FACULTY_LOGIN) {
-            setCurrentFragment(FacultyLoginFragment.newInstance(),true);
-        }
+        setCurrentFragment(LoginFragment.newInstance(opt),false);
     }
 
     @Override
-    public void onFacultyLogin(boolean authenticated, String errorMsg) {
-        if(authenticated) {
+    public void onLogin(boolean authenticated, User user, String errorMsg) {
+        if(authenticated && user.getType()== WebApiConstants.UserType.FACULTY) {
             startActivity(new Intent(this, FacultyHomeActivity.class));
             this.finish();
-        } else {
+        } else if(authenticated && user.getType() == WebApiConstants.UserType.STUDENT ) {
+            startActivity(new Intent(this, StudentHomeActivity.class));
+            this.finish();
+        }
+        else {
             makeToast("Authentication Failure: "+errorMsg);
         }
-    }
-
-    @Override
-    public void onStudentLogin() {
-
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.upes.mspdashboard.model.Faculty;
+import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.model.User;
 
 public class SessionManager {
@@ -15,6 +16,7 @@ public class SessionManager {
     private static final String AUTH_TOKEN_KEY = "auth_token";
     private static final String USERNAME_KEY = "username key";
     private static final String PASSWORD_KEY = "password_key";
+    private static final String USER_TYPE_KEY = "Type key";
     private static SessionManager sessionManager;
     private SharedPreferences shPreference;
     private String authToken;
@@ -28,14 +30,20 @@ public class SessionManager {
         sessionType = shPreference.getInt(SESSION_TYPE_KEY,SESSION_TYPE_NONE);
         String username = shPreference.getString(USERNAME_KEY,null);
         String password = shPreference.getString(PASSWORD_KEY,null);
+        int typeId = shPreference.getInt(USER_TYPE_KEY,-1);
         if(sessionType == SESSION_TYPE_FACULTY) {
             user = new Faculty.Builder()
                     .username(username)
                     .password(password)
+                    .type(WebApiConstants.UserType.getType(typeId))
                     //TODO: add other faculty details
                     .build();
-        } else {
-
+        } else if(sessionType==SESSION_TYPE_STUDENT){
+            user = new Student.Builder()
+                    .username(username)
+                    .password(password)
+                    .type(WebApiConstants.UserType.STUDENT)
+                    .build();
         }
     }
     public static SessionManager getInstance(Context context) {
@@ -53,6 +61,7 @@ public class SessionManager {
         editor.putInt(SESSION_TYPE_KEY,sessionType);
         editor.putString(USERNAME_KEY,user.getUsername());
         editor.putString(PASSWORD_KEY,user.getPassword());
+        editor.putInt(USER_TYPE_KEY,user.getType().getTypeId());
         editor.commit();
     }
     private void clearFields() {
