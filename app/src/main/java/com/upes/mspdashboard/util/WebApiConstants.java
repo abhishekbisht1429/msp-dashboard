@@ -4,10 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public interface WebApiConstants {
+    String STUDENT_URL = "student";
+    String FACULTY_URL = "teacher";
+    int STUDENT_TYPE_ID = 0;
+    int FACULTY_TYPE_ID = 1;
+    int AC_TYPE_ID = 2;
     enum UserType implements Parcelable {
-        FACULTY(1),
-        STUDENT(2),
-        AC(3);
+        FACULTY(FACULTY_TYPE_ID),
+        STUDENT(STUDENT_TYPE_ID),
+        AC(AC_TYPE_ID);
+
         UserType(int typeId){
             this.typeId = typeId;
         }
@@ -32,9 +38,9 @@ public interface WebApiConstants {
             public UserType createFromParcel(Parcel in) {
                 int typeId = in.readInt();
                 switch (typeId) {
-                    case 1 : return FACULTY;
-                    case 2 : return STUDENT;
-                    case 3 : return AC;
+                    case FACULTY_TYPE_ID : return FACULTY;
+                    case STUDENT_TYPE_ID : return STUDENT;
+                    case AC_TYPE_ID  : return AC;
                     default: return null;
                 }
             }
@@ -51,9 +57,9 @@ public interface WebApiConstants {
 
         public static UserType getType(int typeId) {
             switch (typeId) {
-                case 1 : return FACULTY;
-                case 2 : return STUDENT;
-                case 3 : return AC;
+                case FACULTY_TYPE_ID : return FACULTY;
+                case STUDENT_TYPE_ID : return STUDENT;
+                case AC_TYPE_ID : return AC;
                 default: return null;
             }
         }

@@ -1,6 +1,7 @@
 package com.upes.mspdashboard.model;
 
 import com.upes.mspdashboard.util.WebApiConstants;
+import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
 
 public class Student extends User {
     private String imageUrl;
@@ -23,10 +24,6 @@ public class Student extends User {
             student.imageUrl = imageUrl;
             return student;
         }
-        public Student.Builder imageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-            return this;
-        }
         public Builder username(String username) {
             this.username = username;
             return this;
@@ -39,6 +36,11 @@ public class Student extends User {
 
         public Builder type(WebApiConstants.UserType type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder userDetails(UserDetailsResponse userDetailsResponse) {
+            imageUrl = userDetailsResponse.getImageUrl();
             return this;
         }
     }

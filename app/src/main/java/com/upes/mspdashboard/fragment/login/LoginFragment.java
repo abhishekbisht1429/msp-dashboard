@@ -20,10 +20,14 @@ import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.model.User;
 import com.upes.mspdashboard.util.SessionManager;
+import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
-import com.upes.mspdashboard.util.retrofit.model.UserTypeResponse;
+import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -97,24 +101,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-        final User user;
+        final String username = etUsername.getText().toString();
+        final String password = etPassword.getText().toString();
+        final WebApiConstants.UserType uType;
         if(loginOpt == LoginOptionFragment.FACULTY_LOGIN) {
-            user = new Faculty.Builder()
-                    .username(username).password(password)
-                    .type(WebApiConstants.UserType.FACULTY).build();
+            uType = WebApiConstants.UserType.FACULTY;
         }
         else if(loginOpt == LoginOptionFragment.STUDENT_LOGIN) {
-            user = new Student.Builder()
-                    .username(username).password(password)
-                    .type(WebApiConstants.UserType.STUDENT)
-                    .build();
+            uType = WebApiConstants.UserType.STUDENT;
         } else {
-            user = null;
+            uType = null;
         }
 
-        RetrofitApiClient.getInstance().getAuthClient().login(user)
+        Map<String,String> cred = new HashMap<>();
+        cred.put("username",username);
+        cred.put("password",password);
+        RetrofitApiClient.getInstance().getAuthClient().login(cred)
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -123,30 +125,54 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                             Log.i(TAG, "auth token : " + loginResponse.getAuthToken());
                             Map<String,String> headers = new HashMap<>();
                             headers.put("Authorization","Token "+loginResponse.getAuthToken());
-                            RetrofitApiClient.getInstance().getAuthClient().getUserType(headers,user.getUsername())
-                                    .enqueue(new Callback<UserTypeResponse>() {
+                            String path = "";
+                            if(uType== WebApiConstants.UserType.FACULTY) path = WebApiConstants.FACULTY_URL;
+                            else path = WebApiConstants.STUDENT_URL;
+
+
+                            RetrofitApiClient.getInstance().getAuthClient()
+                                    .getUserDetails(headers,path,username)
+                                    .enqueue(new Callback<UserDetailsResponse>() {
                                         @Override
-                                        public void onResponse(Call<UserTypeResponse> call, Response<UserTypeResponse> response) {
-                                            UserTypeResponse utResponse = response.body();
-                                            if(utResponse!=null) {
-                                                //TODO: check the appropriate type of user to create appropriate session
+                                        public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
+                                            UserDetailsResponse uResponse = response.body();
+                                            if(uResponse!=null &&
+                                                    uType == WebApiConstants.UserType.getType(uResponse.getTypeId())) {
+                                                Log.i(TAG,"user type : "+uResponse.getTypeId());
+                                                User user;
+                                                Log.i(TAG,uResponse.getPhoneNo()+"");
+                                                Log.i(TAG,uResponse.getEnrNo()+"");
+                                                if(uType== WebApiConstants.UserType.FACULTY) {
+                                                    user = new Faculty.Builder()
+                                                            .username(username)
+                                                            .password(password)
+                                                            .type(uType)
+                                                            .userDetails(uResponse)
+                                                            .build();
+                                                } else {
+                                                    user = new Student.Builder()
+                                                            .username(username)
+                                                            .password(password)
+                                                            .type(uType)
+                                                            .userDetails(uResponse)
+                                                            .build();
+                                                }
                                                 SessionManager.getInstance(LoginFragment.this.getContext())
                                                         .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_STUDENT,user);
-                                                Log.i(TAG,"user type : "+utResponse.getType());
                                                 mListener.onLogin(true,user,null );
                                             } else {
-                                                Log.i(TAG,"usertype response is null");
+                                                Log.i(TAG,"usertype response is null or utype mismatch");
                                                 try {
                                                     Log.i(TAG, response.errorBody().string());
-                                                }catch(IOException ioe) {
-                                                    ioe.printStackTrace();
+                                                }catch(Exception e) {
+                                                    e.printStackTrace();
                                                 }
-                                                mListener.onLogin(false,null,"Authentication Failure");
+                                                mListener.onLogin(false,null,"Authentication Failure or mismatch");
                                             }
                                         }
 
                                         @Override
-                                        public void onFailure(Call<UserTypeResponse> call, Throwable t) {
+                                        public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
                                             Log.i(TAG,"login failure");
                                             t.printStackTrace();
                                         }

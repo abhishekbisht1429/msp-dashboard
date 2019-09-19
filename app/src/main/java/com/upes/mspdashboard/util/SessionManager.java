@@ -7,6 +7,13 @@ import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.model.User;
 
+/**
+ * The SessionManager manages all the user sessions on the android app. It has a singleton pattern.
+ * Vairous parts of the app can use the methods of this class to check whether a seessoion is in
+ * progress and if yes then which session it is and what are the user details associated with
+ * the session
+ * @author reckoner1429
+ */
 public class SessionManager {
     public static final int SESSION_TYPE_NONE = 0;
     public static final int SESSION_TYPE_FACULTY = 1;
