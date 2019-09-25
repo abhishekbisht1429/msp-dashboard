@@ -24,34 +24,27 @@ public class SessionManager {
     private static final String USERNAME_KEY = "username key";
     private static final String PASSWORD_KEY = "password_key";
     private static final String USER_TYPE_KEY = "Type key";
+    private static final String STU_ENR_NO_KEY = "student enr key";
+    private static final String STU_SAP_ID_KEY = "sap id key";
+    private static final String STU_SEMESTER_KEY = "student sem key";
+    private static final String STU_PROGRAM_KEY = "student program key";
+    private static final String STU_CGPA_KEY = "student cgpa key";
+    private static final String FAC_FIELD_OF_STUDY_KEY = "field of study faculty";
+    private static final String FAC_SLOTS_OCCUPIED_KEY = "faculty slots occupied";
+    private static final String FAC_PHONE_NO_KEY = "faculty phone no key";
+    private static final String FAC_DEPARTMENT_KEY = "faculty department key";
+
     private static SessionManager sessionManager;
     private SharedPreferences shPreference;
+    private Context context;
     private String authToken;
     private int sessionType;
     private User user;
-    private Context context;
+
     private SessionManager(Context context) {
         this.context = context;
         shPreference = context.getSharedPreferences(SESSION_DATA_PREFERENCE_FILE_KEY,Context.MODE_PRIVATE);
-        authToken = shPreference.getString(AUTH_TOKEN_KEY,null);
-        sessionType = shPreference.getInt(SESSION_TYPE_KEY,SESSION_TYPE_NONE);
-        String username = shPreference.getString(USERNAME_KEY,null);
-        String password = shPreference.getString(PASSWORD_KEY,null);
-        int typeId = shPreference.getInt(USER_TYPE_KEY,-1);
-        if(sessionType == SESSION_TYPE_FACULTY) {
-            user = new Faculty.Builder()
-                    .username(username)
-                    .password(password)
-                    .type(WebApiConstants.UserType.getType(typeId))
-                    //TODO: add other faculty details
-                    .build();
-        } else if(sessionType==SESSION_TYPE_STUDENT){
-            user = new Student.Builder()
-                    .username(username)
-                    .password(password)
-                    .type(WebApiConstants.UserType.STUDENT)
-                    .build();
-        }
+        retrieveSavedInfo();
     }
     public static SessionManager getInstance(Context context) {
         if(sessionManager==null)
@@ -59,6 +52,28 @@ public class SessionManager {
         return sessionManager;
     }
 
+    private void retrieveSavedInfo() {
+        authToken = shPreference.getString(AUTH_TOKEN_KEY,null);
+        sessionType = shPreference.getInt(SESSION_TYPE_KEY,SESSION_TYPE_NONE);
+        String username = shPreference.getString(USERNAME_KEY,null);
+        String password = shPreference.getString(PASSWORD_KEY,null);
+        int typeId = shPreference.getInt(USER_TYPE_KEY,-1);
+
+        if(sessionType == SESSION_TYPE_FACULTY) {
+            retrieveFaculty(username,password,typeId);
+        } else if(sessionType==SESSION_TYPE_STUDENT){
+            retrieveStudent(username,password,typeId);
+        } else {
+            user = null;
+        }
+    }
+
+    /**
+     * @param token
+     * @param sessionType
+     * @param user
+     * Call this function to create a new user session.
+     */
     public void login(String token, int sessionType, User user) {
         this.authToken = token;
         this.sessionType = sessionType;
@@ -69,19 +84,93 @@ public class SessionManager {
         editor.putString(USERNAME_KEY,user.getUsername());
         editor.putString(PASSWORD_KEY,user.getPassword());
         editor.putInt(USER_TYPE_KEY,user.getType().getTypeId());
+        if(user.getType()== WebApiConstants.UserType.STUDENT) {
+            saveStudent(editor,(Student)user);
+        } else {
+            saveFaculty(editor,(Faculty)user);
+        }
         editor.commit();
     }
+
+    /**
+     * Call this method to destroy any existing session
+     */
+    public void logout() {
+        SharedPreferences.Editor editor = shPreference.edit();
+        editor.clear();
+        editor.commit();
+        //clear the fields of session manager
+        clearFields();
+    }
+
+    /**
+     * Helper method to save student details locally
+     * @param editor
+     * @param student
+     */
+    private void saveStudent(SharedPreferences.Editor editor,Student student) {
+        editor.putString(STU_ENR_NO_KEY,student.getEnrNo());
+        editor.putString(STU_SAP_ID_KEY,student.getSapId());
+        editor.putString(STU_SEMESTER_KEY,student.getSemeser());
+        editor.putString(STU_PROGRAM_KEY,student.getProgram());
+        editor.putFloat(STU_CGPA_KEY,student.getCgpa());
+    }
+
+    /**
+     * Helper method to retrieve the student details from local storage
+     * @param username
+     * @param password
+     * @param typeId
+     */
+    private void retrieveStudent(String username, String password,int typeId) {
+        Student student = new Student.Builder()
+                .username(username)
+                .password(password)
+                .type(WebApiConstants.UserType.getType(typeId))
+                .enrNo(shPreference.getString(STU_ENR_NO_KEY,null))
+                .sapId(shPreference.getString(STU_SAP_ID_KEY,null))
+                .semester(shPreference.getString(STU_SEMESTER_KEY,null))
+                .program(shPreference.getString(STU_PROGRAM_KEY,null))
+                .cgpa(shPreference.getFloat(STU_CGPA_KEY,0.0f))
+                .build();
+        user = student;
+    }
+
+    /**
+     * Helper method to save Faculty details locally
+     * @param editor
+     * @param faculty
+     */
+    private void saveFaculty(SharedPreferences.Editor editor,Faculty faculty) {
+        editor.putString(FAC_FIELD_OF_STUDY_KEY,faculty.getFieldOfStudy());
+        editor.putInt(FAC_SLOTS_OCCUPIED_KEY,faculty.getSlotsOccupied());
+        editor.putString(FAC_PHONE_NO_KEY,faculty.getPhoneNo());
+        editor.putString(FAC_DEPARTMENT_KEY,faculty.getDepartment());
+    }
+
+    /**
+     * Helper method to retrieve facutly details from local storage
+     * @param username
+     * @param password
+     * @param typeId
+     */
+    private void retrieveFaculty(String username, String password,int typeId) {
+        Faculty faculty = new Faculty.Builder()
+                .username(username)
+                .password(password)
+                .type(WebApiConstants.UserType.getType(typeId))
+                .fieldOfStudy(shPreference.getString(FAC_FIELD_OF_STUDY_KEY,null))
+                .slotsOccupied(shPreference.getInt(FAC_SLOTS_OCCUPIED_KEY,0))
+                .phoneNo(shPreference.getString(FAC_PHONE_NO_KEY,null))
+                .department(shPreference.getString(FAC_DEPARTMENT_KEY,null))
+                .build();
+        user = faculty;
+    }
+
     private void clearFields() {
         this.authToken = null;
         this.sessionType = SESSION_TYPE_NONE;
         this.user = null;
-    }
-
-    public void logout() {
-        clearFields();
-        SharedPreferences.Editor editor = shPreference.edit();
-        editor.clear();
-        editor.commit();
     }
 
     public String getAuthToken() {

@@ -15,10 +15,14 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.activity.LoginActivity;
+import com.upes.mspdashboard.fragment.student.FacultyDetailsFragment;
 import com.upes.mspdashboard.fragment.student.ProfileFragment;
 import com.upes.mspdashboard.fragment.student.FacultyListFragment;
 import com.upes.mspdashboard.fragment.student.StudentProposalFragment;
+import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.util.SessionManager;
+
+import static com.upes.mspdashboard.util.GlobalConstants.FACULTY_PARCEL_KEY;
 
 public class StudentHomeActivity extends AppCompatActivity implements
         View.OnClickListener,
@@ -95,5 +99,14 @@ public class StudentHomeActivity extends AppCompatActivity implements
         } else {
             makeToast(errorMsg);
         }
+    }
+
+    @Override
+    public void onSelectFaculty(Faculty faculty) {
+        makeToast(faculty.getUsername()); //TODO: remove this toast
+        Intent intent = new Intent(this,MentorBookingActivity.class);
+        intent.putExtra(FACULTY_PARCEL_KEY,faculty);
+        startActivity(intent);
+        finish();//TODO: remove this finish()
     }
 }

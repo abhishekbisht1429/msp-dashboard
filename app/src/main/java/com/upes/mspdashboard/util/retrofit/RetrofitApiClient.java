@@ -16,6 +16,7 @@ public class RetrofitApiClient {
     private Retrofit retrofit;
     private static  RetrofitApiClient apiClient;
     private AuthClient authClient;
+    private DataClient dataClient;
     private RetrofitApiClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -33,5 +34,11 @@ public class RetrofitApiClient {
         if(authClient == null)
             authClient = retrofit.create(AuthClient.class);
         return authClient;
+    }
+
+    public DataClient getDataClient() {
+        if(dataClient==null)
+            dataClient = retrofit.create(DataClient.class);
+        return dataClient;
     }
 }

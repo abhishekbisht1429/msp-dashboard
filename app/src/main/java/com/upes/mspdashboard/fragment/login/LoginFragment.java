@@ -20,14 +20,10 @@ import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.model.User;
 import com.upes.mspdashboard.util.SessionManager;
-import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
 import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -105,7 +101,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         final String password = etPassword.getText().toString();
         final WebApiConstants.UserType uType;
         if(loginOpt == LoginOptionFragment.FACULTY_LOGIN) {
-            uType = WebApiConstants.UserType.FACULTY;
+            uType = WebApiConstants.UserType.PROFESSOR;
         }
         else if(loginOpt == LoginOptionFragment.STUDENT_LOGIN) {
             uType = WebApiConstants.UserType.STUDENT;
@@ -126,7 +122,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                             Map<String,String> headers = new HashMap<>();
                             headers.put("Authorization","Token "+loginResponse.getAuthToken());
                             String path = "";
-                            if(uType== WebApiConstants.UserType.FACULTY) path = WebApiConstants.FACULTY_URL;
+                            if(uType== WebApiConstants.UserType.PROFESSOR) path = WebApiConstants.FACULTY_URL;
                             else path = WebApiConstants.STUDENT_URL;
 
 
@@ -142,13 +138,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                                                 User user;
                                                 Log.i(TAG,uResponse.getPhoneNo()+"");
                                                 Log.i(TAG,uResponse.getEnrNo()+"");
-                                                if(uType== WebApiConstants.UserType.FACULTY) {
+                                                int sessionType;
+                                                if(uType== WebApiConstants.UserType.PROFESSOR) {
                                                     user = new Faculty.Builder()
                                                             .username(username)
                                                             .password(password)
                                                             .type(uType)
                                                             .userDetails(uResponse)
                                                             .build();
+                                                    sessionType = SessionManager.SESSION_TYPE_FACULTY;
                                                 } else {
                                                     user = new Student.Builder()
                                                             .username(username)
@@ -156,9 +154,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                                                             .type(uType)
                                                             .userDetails(uResponse)
                                                             .build();
+                                                    sessionType = SessionManager.SESSION_TYPE_STUDENT;
                                                 }
+                                                //TODO: add else if clauses for HOD and AC
                                                 SessionManager.getInstance(LoginFragment.this.getContext())
-                                                        .login(loginResponse.getAuthToken(),SessionManager.SESSION_TYPE_STUDENT,user);
+                                                        .login(loginResponse.getAuthToken(),sessionType,user);
                                                 mListener.onLogin(true,user,null );
                                             } else {
                                                 Log.i(TAG,"usertype response is null or utype mismatch");

@@ -49,7 +49,8 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onLogin(boolean authenticated, User user, String errorMsg) {
-        if(authenticated && user.getType()== WebApiConstants.UserType.FACULTY) {
+        //TODO: add else-if clause for HOD and AC
+        if(authenticated && user.getType()== WebApiConstants.UserType.PROFESSOR) {
             startActivity(new Intent(this, FacultyHomeActivity.class));
             this.finish();
         } else if(authenticated && user.getType() == WebApiConstants.UserType.STUDENT ) {

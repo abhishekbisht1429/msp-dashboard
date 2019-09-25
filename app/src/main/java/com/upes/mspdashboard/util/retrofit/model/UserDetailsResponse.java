@@ -1,10 +1,6 @@
 package com.upes.mspdashboard.util.retrofit.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.upes.mspdashboard.model.Faculty;
-import com.upes.mspdashboard.model.Student;
-import com.upes.mspdashboard.model.User;
-import com.upes.mspdashboard.util.WebApiConstants;
 
 public class UserDetailsResponse {
     @SerializedName("id")
@@ -20,7 +16,7 @@ public class UserDetailsResponse {
     String fieldOfStudy;
 
     @SerializedName("slots_occupied")
-    String slotsOccupied;
+    int slotsOccupied;
 
     @SerializedName("phone")
     String phoneNo;
@@ -41,7 +37,7 @@ public class UserDetailsResponse {
     String semester;
     
     @SerializedName("cgpa")
-    double cgpa;
+    float cgpa;
     
     UserDetailsResponse() {
 
@@ -67,7 +63,7 @@ public class UserDetailsResponse {
         return fieldOfStudy;
     }
 
-    public String getSlotsOccupied() {
+    public int getSlotsOccupied() {
         return slotsOccupied;
     }
 
@@ -91,7 +87,7 @@ public class UserDetailsResponse {
         return semester;
     }
 
-    public double getCgpa() {
+    public float getCgpa() {
         return cgpa;
     }
 }

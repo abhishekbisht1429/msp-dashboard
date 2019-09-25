@@ -2,10 +2,13 @@ package com.upes.mspdashboard.model;
 
 import com.upes.mspdashboard.util.WebApiConstants;
 
-public class User {
+abstract public class User {
     private String username;
     private String password;
     private WebApiConstants.UserType type;
+    protected User() {
+
+    }
     protected User(String username, String password, WebApiConstants.UserType type) {
         this.username = username;
         this.password = password;

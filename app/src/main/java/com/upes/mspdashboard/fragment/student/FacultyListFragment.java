@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,21 @@ import android.widget.TextView;
 
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.model.Faculty;
-import com.upes.mspdashboard.util.SessionManager;
+import com.upes.mspdashboard.util.Utility;
+import com.upes.mspdashboard.util.WebApiConstants;
+import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
+import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class FacultyListFragment extends Fragment implements
     SwipeRefreshLayout.OnRefreshListener {
+    public static final String TAG = "FacultyListFragment";
     private SwipeRefreshLayout swrLayout;
     private RecyclerView rv;
     private RVAdapter rvAdapter;
@@ -39,13 +48,20 @@ public class FacultyListFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ProfileFragment.OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,13 +73,37 @@ public class FacultyListFragment extends Fragment implements
         rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvAdapter = new RVAdapter();
         rv.setAdapter(rvAdapter);
-        Faculty demo = new Faculty.Builder()
-                .username("abhishek")
-                .password("pass")
-                .build();
-        rvAdapter.add(demo);
-        rvAdapter.add(demo);
+        fetchData();
         return view;
+    }
+
+    void fetchData() {
+        RetrofitApiClient.getInstance().getDataClient()
+                .getFacultyList(Utility.authHeader(this.getContext()))
+                .enqueue(new Callback<List<UserDetailsResponse>>() {
+                    @Override
+                    public void onResponse(Call<List<UserDetailsResponse>> call, Response<List<UserDetailsResponse>> response) {
+                        List<UserDetailsResponse> facList = response.body();
+                        if(facList!=null) {
+                            Log.i(TAG, facList.size() + "");
+                            for(UserDetailsResponse udr:facList) {
+                                rvAdapter.add(new Faculty.Builder()
+                                                .username(udr.getFieldOfStudy())
+                                                .type(WebApiConstants.UserType.HOD)
+                                                .userDetails(udr)
+                                                .build()
+                                );
+                            }
+                        } else {
+                            Log.i(TAG,"facList null");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserDetailsResponse>> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
     }
 
     @Override
@@ -72,20 +112,30 @@ public class FacultyListFragment extends Fragment implements
     }
 
     public interface OnFragmentInteractionListener {
-
+        void onSelectFaculty(Faculty faculty);
     }
-    static class FacultyVH extends RecyclerView.ViewHolder {
+
+    private class FacultyVH extends RecyclerView.ViewHolder implements
+        View.OnClickListener {
         private TextView tvName;
+        private Faculty faculty;
         public FacultyVH(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.txtv_fac_list_name);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Faculty faculty) {
             tvName.setText(faculty.getUsername());
+            this.faculty = faculty;
+        }
+
+        @Override
+        public void onClick(View view) {
+            mListener.onSelectFaculty(faculty);
         }
     }
-    static class RVAdapter extends RecyclerView.Adapter<FacultyVH> {
+    private class RVAdapter extends RecyclerView.Adapter<FacultyVH> {
         private List<Faculty> facultyList = new ArrayList<>();
         @NonNull
         @Override

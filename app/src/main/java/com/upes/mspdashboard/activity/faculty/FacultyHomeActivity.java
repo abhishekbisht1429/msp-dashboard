@@ -14,9 +14,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.activity.LoginActivity;
-import com.upes.mspdashboard.activity.SplashActivity;
 import com.upes.mspdashboard.fragment.faculty.CurrentProjectFragment;
-import com.upes.mspdashboard.fragment.faculty.FacultyProposalFragment;
+import com.upes.mspdashboard.fragment.faculty.NewProposalFragment;
 import com.upes.mspdashboard.fragment.faculty.ProfileFragment;
 import com.upes.mspdashboard.util.SessionManager;
 
@@ -57,7 +56,7 @@ public class FacultyHomeActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()) {
             case R.id.action_proposals: {
-                setCurrentFragment(FacultyProposalFragment.newInstance(),false);
+                setCurrentFragment(NewProposalFragment.newInstance(),false);
                 break;
             }
             case R.id.action_current_projects: {

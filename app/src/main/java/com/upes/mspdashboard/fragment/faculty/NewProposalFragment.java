@@ -15,15 +15,15 @@ import com.upes.mspdashboard.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FacultyProposalFragment extends Fragment {
+public class NewProposalFragment extends Fragment {
 
 
-    public FacultyProposalFragment() {
+    public NewProposalFragment() {
         // Required empty public constructor
     }
 
     public static Fragment newInstance() {
-        Fragment fragment = new FacultyProposalFragment();
+        Fragment fragment = new NewProposalFragment();
         return fragment;
     }
 

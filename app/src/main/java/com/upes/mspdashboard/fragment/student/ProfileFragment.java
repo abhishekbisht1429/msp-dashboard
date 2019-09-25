@@ -31,8 +31,12 @@ public class ProfileFragment extends Fragment implements
     private Button btnLogout;
     private TextView txtVName;
     private TextView txtVExtra;
+    private TextView txtVEnrNo;
 
     private Student student;
+    private TextView txtVSapId;
+    private TextView txtVcgpa;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -57,8 +61,15 @@ public class ProfileFragment extends Fragment implements
         btnLogout = view.findViewById(R.id.btn_stu_logout);
         txtVName = view.findViewById(R.id.text_view_stu_profile_name);
         txtVExtra = view.findViewById(R.id.text_view_stu_profile_extra);
+        txtVEnrNo = view.findViewById(R.id.txtv_enrno);
+        txtVSapId = view.findViewById(R.id.txtv_sapid);
+        txtVcgpa = view.findViewById(R.id.txtv_cgpa);
+
         txtVName.setText(student.getUsername());
         txtVExtra.setText(student.getPassword());
+        txtVEnrNo.setText(student.getEnrNo());
+        txtVcgpa.setText(student.getCgpa()+"");
+
         btnLogout.setOnClickListener(this);
         return view;
     }

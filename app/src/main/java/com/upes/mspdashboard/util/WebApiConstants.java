@@ -7,12 +7,15 @@ public interface WebApiConstants {
     String STUDENT_URL = "student";
     String FACULTY_URL = "teacher";
     int STUDENT_TYPE_ID = 0;
-    int FACULTY_TYPE_ID = 1;
+    int HOD_TYPE_ID = 1;
     int AC_TYPE_ID = 2;
+    int PROFESSOR_TYPE_ID = 3;
+
     enum UserType implements Parcelable {
-        FACULTY(FACULTY_TYPE_ID),
-        STUDENT(STUDENT_TYPE_ID),
-        AC(AC_TYPE_ID);
+        HOD(HOD_TYPE_ID),
+        PROFESSOR(PROFESSOR_TYPE_ID),
+        AC(AC_TYPE_ID),
+        STUDENT(STUDENT_TYPE_ID);
 
         UserType(int typeId){
             this.typeId = typeId;
@@ -37,12 +40,7 @@ public interface WebApiConstants {
             @Override
             public UserType createFromParcel(Parcel in) {
                 int typeId = in.readInt();
-                switch (typeId) {
-                    case FACULTY_TYPE_ID : return FACULTY;
-                    case STUDENT_TYPE_ID : return STUDENT;
-                    case AC_TYPE_ID  : return AC;
-                    default: return null;
-                }
+                return getType(typeId);
             }
 
             @Override
@@ -57,9 +55,10 @@ public interface WebApiConstants {
 
         public static UserType getType(int typeId) {
             switch (typeId) {
-                case FACULTY_TYPE_ID : return FACULTY;
-                case STUDENT_TYPE_ID : return STUDENT;
+                case HOD_TYPE_ID: return HOD;
+                case PROFESSOR_TYPE_ID: return PROFESSOR;
                 case AC_TYPE_ID : return AC;
+                case STUDENT_TYPE_ID : return STUDENT;
                 default: return null;
             }
         }
