@@ -18,11 +18,26 @@ public class Faculty extends User implements Parcelable {
             return new Faculty[size];
         }
     };
+    private String firstname;
+    private String lastname;
+    private String email;
     private String imageUrl;
     private String fieldOfStudy;
     private int slotsOccupied;
     private String department;
     private String phoneNo;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -50,6 +65,9 @@ public class Faculty extends User implements Parcelable {
 
     protected Faculty(Parcel in) {
         this(in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
+        firstname = in.readString();
+        lastname = in.readString();
+        email = in.readString();
         imageUrl = in.readString();
         fieldOfStudy = in.readString();
         slotsOccupied = in.readInt();
@@ -67,6 +85,9 @@ public class Faculty extends User implements Parcelable {
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
         parcel.writeInt(getType().getTypeId());
+        parcel.writeString(firstname);
+        parcel.writeString(lastname);
+        parcel.writeString(email);
         parcel.writeString(imageUrl);
         parcel.writeString(fieldOfStudy);
         parcel.writeInt(slotsOccupied);
@@ -78,6 +99,9 @@ public class Faculty extends User implements Parcelable {
         private String username;
         private String password;
         private WebApiConstants.UserType type;
+        private String firstName;
+        private String lastName;
+        private String email;
         private String imageUrl;
         private String fieldOfStudy;
         private int slotsOccupied;
@@ -91,6 +115,9 @@ public class Faculty extends User implements Parcelable {
 
         public Faculty build() {
             Faculty faculty = new Faculty(username,password,type);
+            faculty.firstname = firstName;
+            faculty.lastname = lastName;
+            faculty.email = email;
             faculty.imageUrl = imageUrl;
             faculty.fieldOfStudy = fieldOfStudy;
             faculty.slotsOccupied = slotsOccupied;
@@ -110,6 +137,21 @@ public class Faculty extends User implements Parcelable {
 
         public Builder type(WebApiConstants.UserType type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder firstname(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastname(String lastname) {
+            this.lastName = lastname;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
             return this;
         }
 
@@ -135,6 +177,9 @@ public class Faculty extends User implements Parcelable {
             return this;
         }
         public Builder userDetails(UserDetailsResponse userDetailsResponse) {
+            firstName = userDetailsResponse.getUserCred().getFirstName();
+            lastName = userDetailsResponse.getUserCred().getLastName();
+            email = userDetailsResponse.getUserCred().getEmail();
             imageUrl = userDetailsResponse.getImageUrl();
             fieldOfStudy = userDetailsResponse.getFieldOfStudy();
             slotsOccupied = userDetailsResponse.getSlotsOccupied();

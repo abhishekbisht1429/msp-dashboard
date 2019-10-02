@@ -15,11 +15,13 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.activity.LoginActivity;
+import com.upes.mspdashboard.fragment.faculty.NewProposalFragment;
 import com.upes.mspdashboard.fragment.student.FacultyDetailsFragment;
 import com.upes.mspdashboard.fragment.student.ProfileFragment;
 import com.upes.mspdashboard.fragment.student.FacultyListFragment;
 import com.upes.mspdashboard.fragment.student.StudentProposalFragment;
 import com.upes.mspdashboard.model.Faculty;
+import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 
 import static com.upes.mspdashboard.util.GlobalConstants.FACULTY_PARCEL_KEY;
@@ -29,7 +31,8 @@ public class StudentHomeActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         FacultyListFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        StudentProposalFragment.OnFragmentInteractionListener {
+        StudentProposalFragment.OnFragmentInteractionListener,
+        NewProposalFragment.OnFragmentInteractionListener {
     private static final String TAG = "StudentHomeActivity";
     private FrameLayout frameLayout;
     private BottomNavigationView bnv;
@@ -41,6 +44,7 @@ public class StudentHomeActivity extends AppCompatActivity implements
         frameLayout = findViewById(R.id.frame_layout_stu_home);
         bnv = findViewById(R.id.bnv_stu_home_activity);
         bnv.setOnNavigationItemSelectedListener(this);
+        setCurrentFragment(StudentProposalFragment.newInstance(),false);
     }
 
     void makeToast(String msg) {
@@ -108,5 +112,17 @@ public class StudentHomeActivity extends AppCompatActivity implements
         intent.putExtra(FACULTY_PARCEL_KEY,faculty);
         startActivity(intent);
         finish();//TODO: remove this finish()
+    }
+
+    @Override
+    public void onClickSubmittedProposal(Proposal proposal) {
+        Intent intent = new Intent(this,ProposalActivity.class);
+        startActivity(intent);
+        finish();//TODO: remove this finish()
+    }
+
+    @Override
+    public void onClickViewNewProposal(Proposal proposal) {
+
     }
 }

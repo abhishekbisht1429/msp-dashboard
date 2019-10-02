@@ -1,31 +1,61 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_stu_prop_sub"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/actionBarTheme" />
+            android:layout_height="?attr/actionBarSize"
+            app:title="New Proposal Submission"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context="com.upes.mspdashboard.fragment.student.ProposalSubmissionFragment">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_stu_prop_sub_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/til_stu_prop_sub_title"
+                app:layout_constraintStart_toStartOf="@+id/til_stu_prop_sub_title"
+                app:layout_constraintTop_toBottomOf="@+id/til_stu_prop_sub_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:hint="Description" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_prop_sub_browse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="browse"
+                app:layout_constraintBottom_toTopOf="@+id/btn_proposal_submit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <Button
                 android:id="@+id/btn_proposal_submit"
@@ -39,16 +69,15 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/btn_proposal_submit"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_proposal_title">
+                app:layout_constraintTop_toBottomOf="@+id/til_stu_prop_sub_desc">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_stu_id1"
@@ -83,13 +112,14 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_proposal_title"
+                android:id="@+id/til_stu_prop_sub_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -101,6 +131,8 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

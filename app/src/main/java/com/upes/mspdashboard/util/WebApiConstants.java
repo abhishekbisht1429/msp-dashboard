@@ -4,13 +4,27 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public interface WebApiConstants {
+
+    /**
+     * ****************************************************
+     * Urls for the backend
+     */
     String STUDENT_URL = "student";
     String FACULTY_URL = "teacher";
+    /**
+     * ****************************************************
+     */
+
+
+
+    /**
+     * ****************************************************
+     * User type id constants
+     */
     int STUDENT_TYPE_ID = 0;
     int HOD_TYPE_ID = 1;
     int AC_TYPE_ID = 2;
     int PROFESSOR_TYPE_ID = 3;
-
     enum UserType implements Parcelable {
         HOD(HOD_TYPE_ID),
         PROFESSOR(PROFESSOR_TYPE_ID),
@@ -63,4 +77,19 @@ public interface WebApiConstants {
             }
         }
     }
+    /**
+     * *****************************************************
+     */
+
+
+
+    /**
+     * *****************************************************
+     * Serialized names
+     */
+    String PROPOSAL_TITLE = "title";
+    String PROPOSAL_DESCRIPTION = "abstract";
+    /**
+     * ******************************************************
+     */
 }

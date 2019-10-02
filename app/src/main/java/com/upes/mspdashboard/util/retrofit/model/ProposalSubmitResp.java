@@ -1,5 +1,12 @@
 package com.upes.mspdashboard.util.retrofit.model;
 
-public class ProposalSubmitResp {
+import com.google.gson.annotations.SerializedName;
 
+public class ProposalSubmitResp {
+    @SerializedName("errors")
+    String errors;
+
+    public String getErrors() {
+        return errors;
+    }
 }

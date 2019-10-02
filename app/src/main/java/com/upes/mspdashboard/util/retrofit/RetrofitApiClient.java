@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitApiClient {
     private static final boolean PRODUCTION  = false;
-    private static final String TEST_URL = "http://10.0.2.2:8000";
+    private static final String TEST_URL = "http://192.168.43.169";
     private static final String PRODUCTION_URL = "";
     private static final String BASE_URL = PRODUCTION?PRODUCTION_URL:TEST_URL;
     private Retrofit retrofit;

@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.student.MentorBookingActivity"></activity>
+        <activity android:name=".activity.student.ProposalActivity"></activity>
+        <activity android:name=".activity.student.MentorBookingActivity" />
         <activity android:name=".activity.student.StudentHomeActivity" />
         <activity android:name=".activity.faculty.FacultyHomeActivity" />
         <activity android:name=".activity.SplashActivity">
@@ -22,8 +23,10 @@
         </activity>
         <activity android:name=".activity.LoginActivity" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

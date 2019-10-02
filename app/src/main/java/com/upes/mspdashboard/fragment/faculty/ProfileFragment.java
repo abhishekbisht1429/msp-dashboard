@@ -34,6 +34,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private TextView txtVExtra;
 
     private Faculty faculty;
+    private TextView txtVAreaofStudy;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -57,12 +59,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         btnLogout = view.findViewById(R.id.btn_fac_logout);
         txtVName = view.findViewById(R.id.text_view_fac_profile_name);
         txtVExtra = view.findViewById(R.id.text_view_fac_profile_extra);
-        txtVName.setText(faculty.getUsername());
-        txtVExtra.setText(faculty.getPassword());
+        txtVAreaofStudy = view.findViewById(R.id.txtv_fac_prof_area_of_expt);
         btnLogout.setOnClickListener(this);
+        setFacultyDetails();
         return view;
     }
 
+    private void setFacultyDetails() {
+        txtVName.setText(faculty.getFirstname()+" "+faculty.getLastname());
+        txtVExtra.setText(faculty.getDepartment()+" Department");
+        txtVAreaofStudy.setText(faculty.getFieldOfStudy());
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

@@ -4,18 +4,24 @@ package com.upes.mspdashboard.fragment.student;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.model.Faculty;
+import com.upes.mspdashboard.util.GlobalConstants;
 
 import static com.upes.mspdashboard.util.GlobalConstants.FACULTY_PARCEL_KEY;
+import static com.upes.mspdashboard.util.GlobalConstants.SET_TOOLBAR_AS_ACTIONBAR;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +31,11 @@ public class FacultyDetailsFragment extends Fragment {
     private FloatingActionButton fabNewProposal;
     private OnFragmentInteractionListener mListener;
     private Faculty faculty;
+    private boolean setToolbarAsActionbar;
+    private TextView txtvDepartment;
+    private TextView txtvAoS;
+    private TextView txtvName;
+
     public FacultyDetailsFragment() {
         // Required empty public constructor
     }
@@ -59,6 +70,7 @@ public class FacultyDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         faculty = args.getParcelable(FACULTY_PARCEL_KEY);
+        setToolbarAsActionbar = args.getBoolean(GlobalConstants.SET_TOOLBAR_AS_ACTIONBAR);
     }
 
     @Override
@@ -71,7 +83,10 @@ public class FacultyDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_faculty_details, container, false);
+        txtvName = view.findViewById(R.id.txtv_stu_fac_name);
         toolbar = view.findViewById(R.id.toolbar_fac_details_stu);
+        txtvDepartment = view.findViewById(R.id.txtv_stu_fac_prof_dept);
+        txtvAoS = view.findViewById(R.id.txtv_stu_fac_prof_area_of_expt);
         fabNewProposal = view.findViewById(R.id.fab_fac_details_stu);
         fabNewProposal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +94,18 @@ public class FacultyDetailsFragment extends Fragment {
                 mListener.onClickNewProposal(faculty);
             }
         });
+        if(setToolbarAsActionbar) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        setFacultyDetails();
         return view;
+    }
+
+    private void setFacultyDetails() {
+        toolbar.setTitle(faculty.getFirstname()+" "+faculty.getLastname());
+        txtvDepartment.setText(faculty.getDepartment());
+        txtvAoS.setText(faculty.getFieldOfStudy());
     }
 
     public interface OnFragmentInteractionListener {

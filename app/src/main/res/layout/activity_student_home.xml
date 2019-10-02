@@ -21,6 +21,8 @@
         android:id="@+id/bnv_stu_home_activity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bnv_shadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

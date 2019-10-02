@@ -119,27 +119,17 @@
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:text="Detail 1"
-                        android:textAlignment="textStart"
+                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <TextView
-                        android:id="@+id/txtv_sapid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:padding="8dp"
-                        android:text="Detail 2"
-                        android:textAlignment="textStart"
-                        android:textAppearance="@style/TextAppearance.AppCompat" />
-
-                    <TextView
-                        android:id="@+id/txt_semester"
+                        android:id="@+id/txtv_semester"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:text="Detail 3"
-                        android:textAlignment="textStart"
+                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <TextView
@@ -149,7 +139,7 @@
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:text="Detail 4"
-                        android:textAlignment="textStart"
+                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <TextView
@@ -159,8 +149,17 @@
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:text="Detail 5"
-                        android:textAlignment="textStart"
+                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <TextView
+                        android:id="@+id/txtv_sapid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="8dp"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <Button
                         android:id="@+id/btn_stu_logout"
@@ -169,8 +168,10 @@
                         android:background="@android:color/transparent"
                         android:padding="8dp"
                         android:text="Logout"
-                        android:textAlignment="textStart"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

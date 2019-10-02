@@ -17,11 +17,13 @@ import com.upes.mspdashboard.activity.LoginActivity;
 import com.upes.mspdashboard.fragment.faculty.CurrentProjectFragment;
 import com.upes.mspdashboard.fragment.faculty.NewProposalFragment;
 import com.upes.mspdashboard.fragment.faculty.ProfileFragment;
+import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 
 public class FacultyHomeActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
-        ProfileFragment.OnFragmentInteractionListener {
+        ProfileFragment.OnFragmentInteractionListener,
+        NewProposalFragment.OnFragmentInteractionListener {
     private static final String TAG = "FacultyHomeActivity";
     private FrameLayout frameLayout;
     private BottomNavigationView bnv;
@@ -32,6 +34,7 @@ public class FacultyHomeActivity extends AppCompatActivity implements
         frameLayout = findViewById(R.id.frame_layout_faculty_home);
         bnv = findViewById(R.id.bnv_faculty_home_activity);
         bnv.setOnNavigationItemSelectedListener(this);
+        setCurrentFragment(new NewProposalFragment(),false);
     }
 
     void makeToast(String msg) {
@@ -84,5 +87,10 @@ public class FacultyHomeActivity extends AppCompatActivity implements
         } else {
             makeToast(errorMsg);
         }
+    }
+
+    @Override
+    public void onClickViewNewProposal(Proposal proposal) {
+
     }
 }

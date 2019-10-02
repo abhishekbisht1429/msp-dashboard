@@ -10,43 +10,106 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
 
-        android:layout_height="192dp"
-        android:layout_width="match_parent">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:toolbarId="@+id/toolbar_fac_details_stu"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
 
-            app:contentScrim="?attr/colorPrimary">
+            app:toolbarId="@+id/toolbar_fac_details_stu">
 
             <ImageView
                 android:id="@+id/img_fac_details_stu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
 
-                android:src="@android:drawable/sym_def_app_icon"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/teacher_placeholder" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_fac_details_stu"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"></androidx.appcompat.widget.Toolbar>
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_shape"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/txtv_stu_fac_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:text="Detail 5"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/txtv_stu_fac_prof_dept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:text="department"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/txtv_stu_fac_prof_area_of_expt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:text="Area of Study"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:id="@+id/txt_semester"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:text="Detail 3"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:id="@+id/txtv_program"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:text="Detail 4"
+                android:textAlignment="textStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

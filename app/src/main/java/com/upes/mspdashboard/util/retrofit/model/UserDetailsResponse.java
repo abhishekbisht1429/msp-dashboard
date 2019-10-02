@@ -7,7 +7,7 @@ public class UserDetailsResponse {
     int id;
 
     @SerializedName("user")
-    String email;
+    UserCred userCred;
 
     @SerializedName("avatar")
     String imageUrl;
@@ -51,8 +51,8 @@ public class UserDetailsResponse {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public UserCred getUserCred() {
+        return userCred;
     }
 
     public String getImageUrl() {
@@ -89,5 +89,36 @@ public class UserDetailsResponse {
 
     public float getCgpa() {
         return cgpa;
+    }
+
+
+    public class UserCred {
+        @SerializedName("username")
+        String username;
+
+        @SerializedName("email")
+        String email;
+
+        @SerializedName("first_name")
+        String firstName;
+
+        @SerializedName("last_name")
+        String lastName;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
     }
 }

@@ -36,6 +36,8 @@ public class ProfileFragment extends Fragment implements
     private Student student;
     private TextView txtVSapId;
     private TextView txtVcgpa;
+    private TextView txtVsem;
+    private TextView txtVProgram;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -64,16 +66,23 @@ public class ProfileFragment extends Fragment implements
         txtVEnrNo = view.findViewById(R.id.txtv_enrno);
         txtVSapId = view.findViewById(R.id.txtv_sapid);
         txtVcgpa = view.findViewById(R.id.txtv_cgpa);
+        txtVsem = view.findViewById(R.id.txtv_semester);
+        txtVProgram = view.findViewById(R.id.txtv_program);
 
-        txtVName.setText(student.getUsername());
-        txtVExtra.setText(student.getPassword());
-        txtVEnrNo.setText(student.getEnrNo());
-        txtVcgpa.setText(student.getCgpa()+"");
+        setStudentDetails();
 
         btnLogout.setOnClickListener(this);
         return view;
     }
 
+    private void setStudentDetails() {
+        txtVName.setText(student.getFirstname()+" "+student.getLastname());
+        txtVExtra.setText(student.getProgram());
+        txtVEnrNo.setText(student.getEnrNo());
+        txtVcgpa.setText(student.getCgpa()+"");
+        txtVsem.setText(student.getSemeser());
+        txtVProgram.setText(student.getProgram());
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

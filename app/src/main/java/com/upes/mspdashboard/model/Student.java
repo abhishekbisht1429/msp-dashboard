@@ -18,12 +18,27 @@ public class Student extends User implements Parcelable {
             return new Student[size];
         }
     };
+    private String firstname;
+    private String lastname;
+    private String email;
     private String imageUrl;
     private String enrNo;
     private String semeser;
     private String sapId;
     private String program;
     private float cgpa;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -55,6 +70,9 @@ public class Student extends User implements Parcelable {
 
     protected Student(Parcel in) {
         this(in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
+        firstname = in.readString();
+        lastname = in.readString();
+        email = in.readString();
         imageUrl = in.readString();
         enrNo = in.readString();
         semeser = in.readString();
@@ -73,6 +91,9 @@ public class Student extends User implements Parcelable {
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
         parcel.writeInt(getType().getTypeId());
+        parcel.writeString(firstname);
+        parcel.writeString(lastname);
+        parcel.writeString(email);
         parcel.writeString(imageUrl);
         parcel.writeString(enrNo);
         parcel.writeString(semeser);
@@ -85,6 +106,9 @@ public class Student extends User implements Parcelable {
         private String username;
         private String password;
         private WebApiConstants.UserType type;
+        private String firstname;
+        private String lastname;
+        private String email;
         private String imageUrl;
         private String enrNo;
         private String semeser;
@@ -98,6 +122,9 @@ public class Student extends User implements Parcelable {
 
         public Student build() {
             Student student = new Student(username,password,type);
+            student.firstname = firstname;
+            student.lastname = lastname;
+            student.email = email;
             student.imageUrl = imageUrl;
             student.enrNo = enrNo;
             student.semeser = semeser;
@@ -118,6 +145,21 @@ public class Student extends User implements Parcelable {
 
         public Builder type(WebApiConstants.UserType type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder firstname(String firstname) {
+            this.firstname = firstname;
+            return this;
+        }
+
+        public Builder lastname(String lastname) {
+            this.lastname = lastname;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
             return this;
         }
 
@@ -152,6 +194,9 @@ public class Student extends User implements Parcelable {
         }
 
         public Builder userDetails(UserDetailsResponse userDetailsResponse) {
+            firstname = userDetailsResponse.getUserCred().getFirstName();
+            lastname = userDetailsResponse.getUserCred().getLastName();
+            email = userDetailsResponse.getUserCred().getEmail();
             imageUrl = userDetailsResponse.getImageUrl();
             enrNo = userDetailsResponse.getEnrNo();
             semeser = userDetailsResponse.getSemester();

@@ -33,6 +33,12 @@ public class SessionManager {
     private static final String FAC_SLOTS_OCCUPIED_KEY = "faculty slots occupied";
     private static final String FAC_PHONE_NO_KEY = "faculty phone no key";
     private static final String FAC_DEPARTMENT_KEY = "faculty department key";
+    private static final String FAC_FIRSTNAME_KEY = "faculty first name";
+    private static final String FAC_LASTNAME_KEY = "faculty lastname";
+    private static final String FAC_EMAIL_KEY = "faculty email key";
+    private static final String STU_FIRSTNAME_KEY = "student firstname key";
+    private static final String STU_LASTNAME_KEY = "student lastname key";
+    private static final String STU_EMAIL_KEY = "student email key";
 
     private static SessionManager sessionManager;
     private SharedPreferences shPreference;
@@ -109,6 +115,9 @@ public class SessionManager {
      * @param student
      */
     private void saveStudent(SharedPreferences.Editor editor,Student student) {
+        editor.putString(STU_FIRSTNAME_KEY,student.getFirstname());
+        editor.putString(STU_LASTNAME_KEY,student.getLastname());
+        editor.putString(STU_EMAIL_KEY,student.getEmail());
         editor.putString(STU_ENR_NO_KEY,student.getEnrNo());
         editor.putString(STU_SAP_ID_KEY,student.getSapId());
         editor.putString(STU_SEMESTER_KEY,student.getSemeser());
@@ -127,6 +136,9 @@ public class SessionManager {
                 .username(username)
                 .password(password)
                 .type(WebApiConstants.UserType.getType(typeId))
+                .firstname(shPreference.getString(STU_FIRSTNAME_KEY,null))
+                .lastname(shPreference.getString(STU_LASTNAME_KEY,null))
+                .email(shPreference.getString(STU_EMAIL_KEY,null))
                 .enrNo(shPreference.getString(STU_ENR_NO_KEY,null))
                 .sapId(shPreference.getString(STU_SAP_ID_KEY,null))
                 .semester(shPreference.getString(STU_SEMESTER_KEY,null))
@@ -142,6 +154,9 @@ public class SessionManager {
      * @param faculty
      */
     private void saveFaculty(SharedPreferences.Editor editor,Faculty faculty) {
+        editor.putString(FAC_FIRSTNAME_KEY,faculty.getFirstname());
+        editor.putString(FAC_LASTNAME_KEY,faculty.getLastname());
+        editor.putString(FAC_EMAIL_KEY,faculty.getEmail());
         editor.putString(FAC_FIELD_OF_STUDY_KEY,faculty.getFieldOfStudy());
         editor.putInt(FAC_SLOTS_OCCUPIED_KEY,faculty.getSlotsOccupied());
         editor.putString(FAC_PHONE_NO_KEY,faculty.getPhoneNo());
@@ -159,6 +174,9 @@ public class SessionManager {
                 .username(username)
                 .password(password)
                 .type(WebApiConstants.UserType.getType(typeId))
+                .firstname(shPreference.getString(FAC_FIRSTNAME_KEY,null))
+                .lastname(shPreference.getString(FAC_LASTNAME_KEY,null))
+                .email(shPreference.getString(FAC_EMAIL_KEY,null))
                 .fieldOfStudy(shPreference.getString(FAC_FIELD_OF_STUDY_KEY,null))
                 .slotsOccupied(shPreference.getInt(FAC_SLOTS_OCCUPIED_KEY,0))
                 .phoneNo(shPreference.getString(FAC_PHONE_NO_KEY,null))

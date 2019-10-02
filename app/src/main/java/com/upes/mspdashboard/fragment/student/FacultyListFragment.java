@@ -73,6 +73,7 @@ public class FacultyListFragment extends Fragment implements
         rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvAdapter = new RVAdapter();
         rv.setAdapter(rvAdapter);
+        swrLayout.setOnRefreshListener(this);
         fetchData();
         return view;
     }
@@ -84,31 +85,41 @@ public class FacultyListFragment extends Fragment implements
                     @Override
                     public void onResponse(Call<List<UserDetailsResponse>> call, Response<List<UserDetailsResponse>> response) {
                         List<UserDetailsResponse> facList = response.body();
+                        List<Faculty> faculties = new ArrayList<>();
                         if(facList!=null) {
                             Log.i(TAG, facList.size() + "");
                             for(UserDetailsResponse udr:facList) {
-                                rvAdapter.add(new Faculty.Builder()
-                                                .username(udr.getFieldOfStudy())
-                                                .type(WebApiConstants.UserType.HOD)
-                                                .userDetails(udr)
-                                                .build()
+                                faculties.add(new Faculty.Builder()
+                                        .username(udr.getUserCred().getUsername())
+                                        .type(WebApiConstants.UserType.HOD)
+                                        .userDetails(udr)
+                                        .build()
                                 );
                             }
+                            rvAdapter.setFacultyList(faculties);
                         } else {
                             Log.i(TAG,"facList null");
                         }
+                        stopRefreshAnimation();
                     }
 
                     @Override
                     public void onFailure(Call<List<UserDetailsResponse>> call, Throwable t) {
                         t.printStackTrace();
+                        stopRefreshAnimation();
                     }
                 });
     }
 
+    private void stopRefreshAnimation() {
+        if(swrLayout!=null)
+            swrLayout.setRefreshing(false);
+    }
+
+
     @Override
     public void onRefresh() {
-
+        fetchData();
     }
 
     public interface OnFragmentInteractionListener {
@@ -118,15 +129,18 @@ public class FacultyListFragment extends Fragment implements
     private class FacultyVH extends RecyclerView.ViewHolder implements
         View.OnClickListener {
         private TextView tvName;
+        private TextView tvDetails;
         private Faculty faculty;
         public FacultyVH(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.txtv_fac_list_name);
+            tvDetails = itemView.findViewById(R.id.txtv_layout_fac_list_details);
             itemView.setOnClickListener(this);
         }
 
         public void bind(Faculty faculty) {
-            tvName.setText(faculty.getUsername());
+            tvName.setText(faculty.getFirstname()+" "+faculty.getLastname());
+            tvDetails.setText(faculty.getFieldOfStudy());
             this.faculty = faculty;
         }
 
@@ -159,6 +173,11 @@ public class FacultyListFragment extends Fragment implements
                 facultyList.add(faculty);
                 notifyItemChanged(facultyList.size() - 1);
             }
+        }
+
+        public void setFacultyList(List<Faculty> facList) {
+            this.facultyList = facList;
+            notifyDataSetChanged();
         }
     }
 }
