@@ -108,6 +108,7 @@ public class NewProposalFragment extends Fragment implements
     private void fetchData() {
         String username = SessionManager.getInstance(this.getContext())
                 .getUser().getUsername();
+        Log.i(TAG,"username : "+username);
         RetrofitApiClient.getInstance().getDataClient()
                 .getNewProposals(Utility.authHeader(this.getContext()),username)
                 .enqueue(new Callback<List<Proposal>>() {

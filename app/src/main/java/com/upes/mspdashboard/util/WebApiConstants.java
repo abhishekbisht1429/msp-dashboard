@@ -25,6 +25,7 @@ public interface WebApiConstants {
     int HOD_TYPE_ID = 1;
     int AC_TYPE_ID = 2;
     int PROFESSOR_TYPE_ID = 3;
+
     enum UserType implements Parcelable {
         HOD(HOD_TYPE_ID),
         PROFESSOR(PROFESSOR_TYPE_ID),
@@ -89,6 +90,8 @@ public interface WebApiConstants {
      */
     String PROPOSAL_TITLE = "title";
     String PROPOSAL_DESCRIPTION = "abstract";
+    String PROPOSAL_ID = "id";
+    String PROPOSAL_MENTOR = "mentor";
     /**
      * ******************************************************
      */

@@ -26,25 +26,11 @@
 
 
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context="com.upes.mspdashboard.fragment.student.ProposalSubmissionFragment">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_stu_prop_sub_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/til_stu_prop_sub_title"
-                app:layout_constraintStart_toStartOf="@+id/til_stu_prop_sub_title"
-                app:layout_constraintTop_toBottomOf="@+id/til_stu_prop_sub_title">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:hint="Description" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_prop_sub_browse"
@@ -71,7 +57,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="0dp"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +65,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_stu_prop_sub_desc">
 
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_stu_id1"
+                    android:id="@+id/til_stu_prop_sub_mem2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -91,6 +78,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_stu_prop_sub_mem3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -100,16 +88,29 @@
                         android:hint="stu id 2" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:id="@+id/txtv_stu_prop_sub_filename"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:text="No File Selected"
+                    android:textAlignment="center" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="stu id 3" />
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_stu_prop_sub_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/til_stu_prop_sub_title"
+                app:layout_constraintStart_toStartOf="@+id/til_stu_prop_sub_title"
+                app:layout_constraintTop_toBottomOf="@+id/til_stu_prop_sub_title">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:hint="Description" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_stu_prop_sub_title"

@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -18,11 +22,13 @@ import com.upes.mspdashboard.fragment.faculty.CurrentProjectFragment;
 import com.upes.mspdashboard.fragment.faculty.NewProposalFragment;
 import com.upes.mspdashboard.fragment.faculty.ProfileFragment;
 import com.upes.mspdashboard.model.Proposal;
+import com.upes.mspdashboard.util.GlobalConstants;
 import com.upes.mspdashboard.util.SessionManager;
 
 public class FacultyHomeActivity extends AppCompatActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener,
         ProfileFragment.OnFragmentInteractionListener,
+        CurrentProjectFragment.OnFragmentInteractionListener,
         NewProposalFragment.OnFragmentInteractionListener {
     private static final String TAG = "FacultyHomeActivity";
     private FrameLayout frameLayout;
@@ -91,6 +97,19 @@ public class FacultyHomeActivity extends AppCompatActivity implements
 
     @Override
     public void onClickViewNewProposal(Proposal proposal) {
+        Intent intent = new Intent(this,NewPropDetailActivity.class);
+        intent.putExtra(GlobalConstants.PROPOSAL_PARCEL_KEY,proposal);
+        startActivity(intent);
+        //finish();//TODO: remove this finish
 
+    }
+
+    @Override
+    public void onExcelFileDownload(boolean success, String msg) {
+        if(success) {
+            makeToast(msg);
+        } else {
+            makeToast(msg);
+        }
     }
 }

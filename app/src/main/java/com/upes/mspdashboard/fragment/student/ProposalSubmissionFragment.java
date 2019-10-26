@@ -13,11 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.se.omapi.Session;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,6 +31,9 @@ import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.util.GlobalConstants;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.upes.mspdashboard.util.GlobalConstants.FACULTY_PARCEL_KEY;
 import static com.upes.mspdashboard.util.GlobalConstants.SET_TOOLBAR_AS_ACTIONBAR;
@@ -47,6 +53,8 @@ public class ProposalSubmissionFragment extends Fragment {
     private Uri proposalUri;
     private boolean setToolbarAsActionbar;
     private Toolbar toolbar;
+    private TextInputLayout tilStu2;
+    private TextInputLayout tilStu3;
 
     public ProposalSubmissionFragment() {
         // Required empty public constructor
@@ -102,14 +110,23 @@ public class ProposalSubmissionFragment extends Fragment {
         btnBrowse = view.findViewById(R.id.btn_prop_sub_browse);
         tilTitle = view.findViewById(R.id.til_stu_prop_sub_title);
         tilDesc = view.findViewById(R.id.til_stu_prop_sub_desc);
+        tilStu2 = view.findViewById(R.id.til_stu_prop_sub_mem2);
+        tilStu3 = view.findViewById(R.id.til_stu_prop_sub_mem3);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List<String> teamList = new ArrayList<>();
+                String username = SessionManager.getInstance(ProposalSubmissionFragment.this.getContext())
+                        .getUser().getUsername();
+                teamList.add(username);
+                teamList.add(tilStu2.getEditText().getText().toString());
+                teamList.add(tilStu3.getEditText().getText().toString());
                 Student stu = (Student) SessionManager.getInstance(ProposalSubmissionFragment.this.getContext())
                         .getUser();
                 Proposal proposal = new Proposal();
                 proposal.setStudent(stu);
                 proposal.setMentor(faculty);
+                proposal.setTeamList(teamList);
                 proposal.setTitle(tilTitle.getEditText().getText().toString());
                 proposal.setDescription(tilDesc.getEditText().getText().toString());
                 proposal.setProposalUri(proposalUri);
@@ -123,6 +140,7 @@ public class ProposalSubmissionFragment extends Fragment {
                 if(Utility.checkExtStorageWritePermission(getContext())) {
                     Log.i(TAG,"storage permission available");
                     chooseFile();
+
                 } else { //request storage permission
                     Log.i(TAG,"requesting storage permission");
                     Utility.requestExtStorageWritePermission(ProposalSubmissionFragment.this);

@@ -22,6 +22,9 @@ public class Proposal implements Parcelable {
         }
     };
 
+    @SerializedName(WebApiConstants.PROPOSAL_ID)
+    private int id;
+
     @SerializedName(WebApiConstants.PROPOSAL_TITLE)
     private String title;
 
@@ -30,6 +33,7 @@ public class Proposal implements Parcelable {
 
     private Student stu;
 
+    @SerializedName(WebApiConstants.PROPOSAL_MENTOR)
     private Faculty mentor;
 
     private List<String> teamList;

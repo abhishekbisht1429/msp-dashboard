@@ -11,6 +11,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -19,6 +20,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 
 public interface DataClient {
     @GET("accounts/teachers")
@@ -41,4 +43,17 @@ public interface DataClient {
     @GET("application/proposal/mentor/{studentUsername}")
     Call<List<Proposal>> getSubmittedProposals(@HeaderMap Map<String,String> headers,
                                          @Path(value="studentUsername") String username);
+
+    @POST("application/proposal/detail/{id}")
+    Call<String> acceptProposal(@HeaderMap Map<String,String> headers,
+                                @Path(value="id")int id, @Body Proposal proposal);
+
+    @POST("application/proposal/detail/{id}")
+    Call<String> rejectProposal(@HeaderMap Map<String,String> headers,
+                                @Path(value="id")int id, @Body Proposal proposal);
+
+    @GET(" ")
+    @Streaming
+    Call<ResponseBody> downloadFile(@HeaderMap Map<String,String> headers);
+
 }
