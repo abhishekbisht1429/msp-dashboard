@@ -24,10 +24,16 @@ import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 import com.upes.mspdashboard.util.retrofit.model.ProposalSubmitResp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,13 +88,20 @@ public class MentorBookingActivity extends AppCompatActivity implements
         setCurrentFragment(ProposalSubmissionFragment.newInstance(faculty),true);
     }
 
-    private String getRealPathFromUri(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri,null,null,null,null);
-        if(cursor!=null) {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
-            Log.i(TAG,cursor.getString(idx));
-            return cursor.getString(idx);
+    private String getUploadPathFromUri(Uri uri) {
+        File temp = new File(this.getExternalCacheDir(),"temp");
+        try(InputStream is = getContentResolver().openInputStream(uri);
+            OutputStream os = new FileOutputStream(temp)) {
+            int b;
+            while((b=is.read())!=-1) {
+                os.write(b);
+            }
+            return temp.getAbsolutePath();
+        } catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+        } catch(IOException ioE) {
+            Log.e(TAG,"IOException");
+            ioE.printStackTrace();
         }
         return null;
     }
@@ -97,20 +110,17 @@ public class MentorBookingActivity extends AppCompatActivity implements
     public void onClickProposalSubmit(Proposal proposal) {
         makeToast("submitting..."+proposal.getTitle());
         //create the file part
-        File file = new File(getRealPathFromUri(proposal.getProposalUri()));
+        File file = new File(getUploadPathFromUri(proposal.getProposalUri()));
         RequestBody fileBody = RequestBody.create(MediaType.parse("*/*"),file);
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file","proposal",fileBody);
-        //create the username part
-        MultipartBody.Part unamePart = MultipartBody.Part.createFormData("username",proposal.getStudent().getUsername());
-        //create the mentor-uname part
-        MultipartBody.Part mentorUnamePart = MultipartBody.Part.createFormData("mentorUsername",proposal.getMentor().getUsername());
-        //create the title part
-        MultipartBody.Part  titlePart = MultipartBody.Part.createFormData("title",proposal.getTitle());
-        //create the description part
-        MultipartBody.Part descPart = MultipartBody.Part.createFormData("description",proposal.getDescription());
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("proposal","proposal",fileBody);
+        Log.i(TAG,"mentor user id : "+proposal.getMentor().getUserId());
+        RequestBody id = RequestBody.create(MediaType.parse("text/plain"),-1+"");
+        RequestBody mentor = RequestBody.create(MediaType.parse("text/plain"),proposal.getMentor().getUserId()+"");
+        RequestBody title = RequestBody.create(MediaType.parse("text/plain"),proposal.getTitle());
+        RequestBody desc = RequestBody.create(MediaType.parse("text/plain"),proposal.getDescription());
 
         RetrofitApiClient.getInstance().getDataClient()
-                .submitProposal(Utility.authHeader(this),unamePart,mentorUnamePart,titlePart,descPart,filePart)
+                .submitProposal(Utility.authHeader(this),id,mentor,title,desc,filePart)
                 .enqueue(new Callback<ProposalSubmitResp>() {
                     @Override
                     public void onResponse(Call<ProposalSubmitResp> call, Response<ProposalSubmitResp> response) {
@@ -118,7 +128,12 @@ public class MentorBookingActivity extends AppCompatActivity implements
                         if(resp!=null) {
                             Log.i(TAG,"resp not null "+response.code()+" : "+resp.getErrors());
                         } else {
-                            Log.e(TAG,"resp is null");
+                            ResponseBody respb = response.errorBody();
+                            try {
+                                Log.e(TAG, "resp is null " + respb.string() + " : ");
+                            }catch(IOException ioe) {
+                                ioe.printStackTrace();
+                            }
                         }
                     }
 

@@ -89,6 +89,7 @@ public class FacultyListFragment extends Fragment implements
                         if(facList!=null) {
                             Log.i(TAG, facList.size() + "");
                             for(UserDetailsResponse udr:facList) {
+                                Log.i(TAG,"fac id : "+udr.getUserCred().getId());
                                 faculties.add(new Faculty.Builder()
                                         .username(udr.getUserCred().getUsername())
                                         .type(WebApiConstants.UserType.HOD)

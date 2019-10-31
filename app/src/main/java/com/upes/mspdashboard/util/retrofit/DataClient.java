@@ -29,12 +29,13 @@ public interface DataClient {
     @Multipart
     @POST("application/propose/")
     Call<ProposalSubmitResp> submitProposal(@HeaderMap Map<String, String> headers,
-                                            @Part MultipartBody.Part username,
-                                            @Part MultipartBody.Part mentorUname,
-                                            @Part MultipartBody.Part title,
-                                            @Part MultipartBody.Part desc,
+                                            @Part("membershhh") RequestBody members,
+                                            @Part("mentor") RequestBody mentor,
+                                            @Part("title") RequestBody title,
+                                            @Part ("abstract") RequestBody desc,
                                             @Part MultipartBody.Part file);
 
+    //TODO: correct this - replace username with userid
     @GET("application/proposal/mentor/{facultyUsername}")
     Call<List<Proposal>> getNewProposals(@HeaderMap Map<String,String> headers,
                                          @Path(value="facultyUsername") String username);
@@ -52,8 +53,8 @@ public interface DataClient {
     Call<String> rejectProposal(@HeaderMap Map<String,String> headers,
                                 @Path(value="id")int id, @Body Proposal proposal);
 
-    @GET(" ")
+    @GET("application/proposals/excel/{fac_id}")
     @Streaming
-    Call<ResponseBody> downloadFile(@HeaderMap Map<String,String> headers);
+    Call<ResponseBody> downloadFile(@HeaderMap Map<String,String> headers,@Path(value="fac_id") int fac_id);
 
 }

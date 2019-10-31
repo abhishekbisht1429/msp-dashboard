@@ -3,9 +3,6 @@ package com.upes.mspdashboard.util.retrofit.model;
 import com.google.gson.annotations.SerializedName;
 
 public class UserDetailsResponse {
-    @SerializedName("id")
-    int id;
-
     @SerializedName("user")
     UserCred userCred;
 
@@ -45,10 +42,6 @@ public class UserDetailsResponse {
 
     public int getTypeId() {
         return typeId;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public UserCred getUserCred() {
@@ -93,6 +86,9 @@ public class UserDetailsResponse {
 
 
     public class UserCred {
+        @SerializedName("id")
+        int id;
+
         @SerializedName("username")
         String username;
 
@@ -105,6 +101,9 @@ public class UserDetailsResponse {
         @SerializedName("last_name")
         String lastName;
 
+        public int getId() {
+            return id;
+        }
         public String getUsername() {
             return username;
         }

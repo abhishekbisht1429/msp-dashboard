@@ -59,12 +59,12 @@ public class Faculty extends User implements Parcelable {
         return phoneNo;
     }
 
-    private Faculty(String username, String password, WebApiConstants.UserType type) {
-        super(username,password,type);
+    private Faculty(int id,String username, String password, WebApiConstants.UserType type) {
+        super(id, username, password, type);
     }
 
     protected Faculty(Parcel in) {
-        this(in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
+        this(in.readInt(),in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
         firstname = in.readString();
         lastname = in.readString();
         email = in.readString();
@@ -82,6 +82,7 @@ public class Faculty extends User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(getUserId());
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
         parcel.writeInt(getType().getTypeId());
@@ -96,6 +97,7 @@ public class Faculty extends User implements Parcelable {
     }
 
     public static class Builder {
+        private int id;
         private String username;
         private String password;
         private WebApiConstants.UserType type;
@@ -114,7 +116,7 @@ public class Faculty extends User implements Parcelable {
         }
 
         public Faculty build() {
-            Faculty faculty = new Faculty(username,password,type);
+            Faculty faculty = new Faculty(id,username,password,type);
             faculty.firstname = firstName;
             faculty.lastname = lastName;
             faculty.email = email;
@@ -125,6 +127,11 @@ public class Faculty extends User implements Parcelable {
             faculty.phoneNo = phoneNo;
             return faculty;
         }
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
+
         public Builder username(String username) {
             this.username = username;
             return this;
@@ -177,6 +184,7 @@ public class Faculty extends User implements Parcelable {
             return this;
         }
         public Builder userDetails(UserDetailsResponse userDetailsResponse) {
+            id = userDetailsResponse.getUserCred().getId();
             firstName = userDetailsResponse.getUserCred().getFirstName();
             lastName = userDetailsResponse.getUserCred().getLastName();
             email = userDetailsResponse.getUserCred().getEmail();

@@ -64,12 +64,12 @@ public class Student extends User implements Parcelable {
         return cgpa;
     }
 
-    private Student(String username, String password, WebApiConstants.UserType type) {
-        super(username, password,type);
+    private Student(int id,String username, String password, WebApiConstants.UserType type) {
+        super(id, username, password, type);
     }
 
     protected Student(Parcel in) {
-        this(in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
+        this(in.readInt(),in.readString(),in.readString(), WebApiConstants.UserType.getType(in.readInt()));
         firstname = in.readString();
         lastname = in.readString();
         email = in.readString();
@@ -88,6 +88,7 @@ public class Student extends User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(getUserId());
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
         parcel.writeInt(getType().getTypeId());
@@ -103,6 +104,7 @@ public class Student extends User implements Parcelable {
     }
 
     public static class Builder {
+        private int id;
         private String username;
         private String password;
         private WebApiConstants.UserType type;
@@ -121,7 +123,7 @@ public class Student extends User implements Parcelable {
         }
 
         public Student build() {
-            Student student = new Student(username,password,type);
+            Student student = new Student(id,username,password,type);
             student.firstname = firstname;
             student.lastname = lastname;
             student.email = email;
@@ -133,6 +135,11 @@ public class Student extends User implements Parcelable {
             student.cgpa = cgpa;
             return student;
         }
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
+
         public Builder username(String username) {
             this.username = username;
             return this;
@@ -194,6 +201,7 @@ public class Student extends User implements Parcelable {
         }
 
         public Builder userDetails(UserDetailsResponse userDetailsResponse) {
+            id = userDetailsResponse.getUserCred().getId();
             firstname = userDetailsResponse.getUserCred().getFirstName();
             lastname = userDetailsResponse.getUserCred().getLastName();
             email = userDetailsResponse.getUserCred().getEmail();

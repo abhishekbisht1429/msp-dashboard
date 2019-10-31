@@ -2,12 +2,9 @@ package com.upes.mspdashboard.fragment.faculty;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,12 +23,11 @@ import android.view.ViewGroup;
 
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.util.GlobalConstants;
+import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -93,7 +87,7 @@ public class CurrentProjectFragment extends Fragment {
 
 
         if(item.getItemId()==R.id.action_download_list) {
-            requestFileCreation("current_projects.xls",GlobalConstants.MIME_TYPE_EXCEL);
+            requestFileCreation("current_projects.csv",GlobalConstants.MIME_TYPE_CSV);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -112,8 +106,11 @@ public class CurrentProjectFragment extends Fragment {
     }
 
     private void downloadExcelFile(final Uri excelFileuri) {
+        int fac_id = SessionManager.getInstance(this.getContext())
+                .getUser().getUserId();
+        Log.i(TAG,"fac_id: "+fac_id);
         RetrofitApiClient.getInstance().getDataClient()
-                .downloadFile(Utility.authHeader(this.getContext()))
+                .downloadFile(Utility.authHeader(this.getContext()),fac_id)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

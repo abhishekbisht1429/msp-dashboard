@@ -20,7 +20,7 @@ public interface GlobalConstants {
      * ************************************************************************(
      * MIME Types
      */
-    String MIME_TYPE_EXCEL = "application/vnd.ms-excel";
+    String MIME_TYPE_CSV = "txt/csv";
     /**
      * ************************************************************************)
      */

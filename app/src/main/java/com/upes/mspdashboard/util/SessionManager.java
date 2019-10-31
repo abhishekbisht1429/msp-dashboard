@@ -21,6 +21,7 @@ public class SessionManager {
     private static final String SESSION_DATA_PREFERENCE_FILE_KEY = "org.upes.mspdashboard.session_file_key";
     private static final String SESSION_TYPE_KEY = "session type";
     private static final String AUTH_TOKEN_KEY = "auth_token";
+    private static final String USERID_KEY = "user id key";
     private static final String USERNAME_KEY = "username key";
     private static final String PASSWORD_KEY = "password_key";
     private static final String USER_TYPE_KEY = "Type key";
@@ -61,14 +62,15 @@ public class SessionManager {
     private void retrieveSavedInfo() {
         authToken = shPreference.getString(AUTH_TOKEN_KEY,null);
         sessionType = shPreference.getInt(SESSION_TYPE_KEY,SESSION_TYPE_NONE);
+        int id = shPreference.getInt(USERID_KEY,-1);
         String username = shPreference.getString(USERNAME_KEY,null);
         String password = shPreference.getString(PASSWORD_KEY,null);
         int typeId = shPreference.getInt(USER_TYPE_KEY,-1);
 
         if(sessionType == SESSION_TYPE_FACULTY) {
-            retrieveFaculty(username,password,typeId);
+            retrieveFaculty(id,username,password,typeId);
         } else if(sessionType==SESSION_TYPE_STUDENT){
-            retrieveStudent(username,password,typeId);
+            retrieveStudent(id,username,password,typeId);
         } else {
             user = null;
         }
@@ -87,6 +89,7 @@ public class SessionManager {
         SharedPreferences.Editor editor = shPreference.edit();
         editor.putString(AUTH_TOKEN_KEY,authToken);
         editor.putInt(SESSION_TYPE_KEY,sessionType);
+        editor.putInt(USERID_KEY,user.getUserId());
         editor.putString(USERNAME_KEY,user.getUsername());
         editor.putString(PASSWORD_KEY,user.getPassword());
         editor.putInt(USER_TYPE_KEY,user.getType().getTypeId());
@@ -131,8 +134,9 @@ public class SessionManager {
      * @param password
      * @param typeId
      */
-    private void retrieveStudent(String username, String password,int typeId) {
+    private void retrieveStudent(int id,String username, String password,int typeId) {
         Student student = new Student.Builder()
+                .id(id)
                 .username(username)
                 .password(password)
                 .type(WebApiConstants.UserType.getType(typeId))
@@ -169,8 +173,9 @@ public class SessionManager {
      * @param password
      * @param typeId
      */
-    private void retrieveFaculty(String username, String password,int typeId) {
+    private void retrieveFaculty(int id,String username, String password,int typeId) {
         Faculty faculty = new Faculty.Builder()
+                .id(id)
                 .username(username)
                 .password(password)
                 .type(WebApiConstants.UserType.getType(typeId))
