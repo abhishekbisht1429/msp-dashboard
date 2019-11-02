@@ -95,19 +95,19 @@ public class FacProposalDetailsFragment extends Fragment {
         fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onInteraction("Proposal Accepted");
+                mListener.onInteraction(true, proposal,"Proposal Accepted");
             }
         });
         fabReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onInteraction("Proposal Rejected");
+                mListener.onInteraction(false, proposal, "Proposal Rejected");
             }
         });
         return view;
     }
 
     public interface OnFragmentInteractionListener {
-        void onInteraction(String msg);
+        void onInteraction(boolean accepted, Proposal proposal,String msg);
     }
 }

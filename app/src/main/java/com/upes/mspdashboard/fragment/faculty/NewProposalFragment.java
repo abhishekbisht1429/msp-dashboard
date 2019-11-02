@@ -18,11 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.fasterxml.jackson.databind.ser.impl.PropertyBasedObjectIdGenerator;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
+import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class NewProposalFragment extends Fragment implements
     private SwipeRefreshLayout swrLayout;
     private RecyclerView rv;
     private RVAdapter rvAdapter;
+    private TextView tvNoData;
 
     public NewProposalFragment() {
         // Required empty public constructor
@@ -90,12 +93,17 @@ public class NewProposalFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_faculty_proposal, container, false);
         swrLayout = view.findViewById(R.id.swr_layout_fac_new_prop);
         rv = view.findViewById(R.id.rv_fac_new_prop);
+        tvNoData = view.findViewById(R.id.txtv_fac_new_prop_no_data);
         rv.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvAdapter = new RVAdapter();
         rv.setAdapter(rvAdapter);
         swrLayout.setOnRefreshListener(this);
         fetchData();
         return view;
+    }
+
+    private void showNoData(boolean show) {
+        tvNoData.setVisibility(show?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -106,16 +114,22 @@ public class NewProposalFragment extends Fragment implements
     }
 
     private void fetchData() {
-        String username = SessionManager.getInstance(this.getContext())
-                .getUser().getUsername();
-        Log.i(TAG,"username : "+username);
+        int userid = SessionManager.getInstance(this.getContext())
+                .getUser().getUserId();
+        Log.i(TAG,"username : "+userid);
         RetrofitApiClient.getInstance().getDataClient()
-                .getNewProposals(Utility.authHeader(this.getContext()),username)
-                .enqueue(new Callback<List<Proposal>>() {
+                .getNewProposals(Utility.authHeader(this.getContext()),userid)
+                .enqueue(new Callback<List<ProposalResponse>>() {
                     @Override
-                    public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
-                        List<Proposal> proposals = response.body();
-                        if(proposals!=null) {
+                    public void onResponse(Call<List<ProposalResponse>> call, Response<List<ProposalResponse>> response) {
+                        List<ProposalResponse> proposalResps = response.body();
+                        if(proposalResps!=null) {
+                            List<Proposal> proposals = new ArrayList<>();
+                            for(ProposalResponse propResp:proposalResps) {
+                                Proposal prop = new Proposal();
+                                prop.setPropsalDetails(propResp);
+                                proposals.add(prop);
+                            }
                             Log.i(TAG,"no of proposals "+proposals.size());
                             rvAdapter.setProposalList(proposals);
                         } else {
@@ -125,7 +139,7 @@ public class NewProposalFragment extends Fragment implements
                     }
 
                     @Override
-                    public void onFailure(Call<List<Proposal>> call, Throwable t) {
+                    public void onFailure(Call<List<ProposalResponse>> call, Throwable t) {
                         t.printStackTrace();
                         Log.i(TAG,"failed to fetch new proposals:network error");
                         stopRefreshAnimation();
@@ -195,6 +209,8 @@ public class NewProposalFragment extends Fragment implements
         void setProposalList(List<Proposal> proposalList) {
             this.proposalList = proposalList;
             notifyDataSetChanged();
+            if(proposalList.size()==0) showNoData(true);
+            else showNoData(false);
         }
     }
 }

@@ -112,4 +112,9 @@ public class FacultyHomeActivity extends AppCompatActivity implements
             makeToast(msg);
         }
     }
+
+    @Override
+    public void onClickViewCurrentProposal(Proposal proposal) {
+        //TODO: open current project activity
+    }
 }

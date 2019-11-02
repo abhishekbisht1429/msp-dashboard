@@ -14,8 +14,6 @@ import com.upes.mspdashboard.fragment.faculty.FacProposalDetailsFragment;
 import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.GlobalConstants;
 
-import static com.upes.mspdashboard.util.GlobalConstants.FACULTY_PARCEL_KEY;
-
 public class NewPropDetailActivity extends AppCompatActivity implements
     FacProposalDetailsFragment.OnFragmentInteractionListener {
     FrameLayout frameLayout;
@@ -60,8 +58,13 @@ public class NewPropDetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onInteraction(String msg) {
+    public void onInteraction(boolean accepted, Proposal proposal, String msg) {
         makeToast(msg);
+        if(accepted) {
+            //TODO: set the status of the proposal to 1
+        } else {
+            //TODO: set the status of the proposal to 2
+        }
         onBackPressed();
     }
 }

@@ -126,7 +126,7 @@ public class ProposalSubmissionFragment extends Fragment {
                 Proposal proposal = new Proposal();
                 proposal.setStudent(stu);
                 proposal.setMentor(faculty);
-                proposal.setTeamList(teamList);
+//                proposal.setTeamList(teamList);
                 proposal.setTitle(tilTitle.getEditText().getText().toString());
                 proposal.setDescription(tilDesc.getEditText().getText().toString());
                 proposal.setProposalUri(proposalUri);

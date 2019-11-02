@@ -2,6 +2,8 @@ package com.upes.mspdashboard.util.retrofit;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.upes.mspdashboard.model.Proposal;
+import com.upes.mspdashboard.util.WebApiConstants;
+import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
 import com.upes.mspdashboard.util.retrofit.model.ProposalSubmitResp;
 import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
 
@@ -18,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Streaming;
@@ -35,23 +38,26 @@ public interface DataClient {
                                             @Part ("abstract") RequestBody desc,
                                             @Part MultipartBody.Part file);
 
-    //TODO: correct this - replace username with userid
-    @GET("application/proposal/mentor/{facultyUsername}")
-    Call<List<Proposal>> getNewProposals(@HeaderMap Map<String,String> headers,
-                                         @Path(value="facultyUsername") String username);
+    @GET("application/proposal/mentor/{facultyUserid}")
+    Call<List<ProposalResponse>> getNewProposals(@HeaderMap Map<String,String> headers,
+                                                 @Path(value="facultyUserid") int userid);
 
 
     @GET("application/proposal/mentor/{studentUsername}")
-    Call<List<Proposal>> getSubmittedProposals(@HeaderMap Map<String,String> headers,
+    Call<List<ProposalResponse>> getSubmittedProposals(@HeaderMap Map<String,String> headers,
                                          @Path(value="studentUsername") String username);
 
-    @POST("application/proposal/detail/{id}")
+    @PUT("application/proposal/mentor/{prop_id}/changestatus/"+ WebApiConstants.PROPOSAL_STATUS_ACCEPTED)
     Call<String> acceptProposal(@HeaderMap Map<String,String> headers,
-                                @Path(value="id")int id, @Body Proposal proposal);
+                                @Path(value="prop_id")int propId);
 
-    @POST("application/proposal/detail/{id}")
+    @PUT("application/proposal/mentor/{id}/changestatus/"+ WebApiConstants.PROPOSAL_STATUS_REJECTED)
     Call<String> rejectProposal(@HeaderMap Map<String,String> headers,
-                                @Path(value="id")int id, @Body Proposal proposal);
+                                @Path(value="prop_id")int propId);
+
+    @GET("application/proposals/mentor/accepted/{id}")
+    Call<List<ProposalResponse>> getAcceptedProposals(@HeaderMap Map<String,String> headers,
+                                              @Path(value="id") int id);
 
     @GET("application/proposals/excel/{fac_id}")
     @Streaming

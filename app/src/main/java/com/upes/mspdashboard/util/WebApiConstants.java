@@ -15,7 +15,15 @@ public interface WebApiConstants {
      * ****************************************************
      */
 
-
+    /**
+     * ********************************************************(
+     */
+    int PROPOSAL_STATUS_SENT = 0;
+    int PROPOSAL_STATUS_ACCEPTED = 1;
+    int PROPOSAL_STATUS_REJECTED = 2;
+    /**
+     * ********************************************************)
+     */
 
     /**
      * ****************************************************
@@ -92,6 +100,9 @@ public interface WebApiConstants {
     String PROPOSAL_DESCRIPTION = "abstract";
     String PROPOSAL_ID = "id";
     String PROPOSAL_MENTOR = "mentor";
+    String PROPOSAL_TEAM_LIST = "members";
+    String PROPOSAL_TYPE = "project_type";
+    String PROPOSAL_STATUS = "status";
     /**
      * ******************************************************
      */

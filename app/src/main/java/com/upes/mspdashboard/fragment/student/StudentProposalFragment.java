@@ -21,6 +21,7 @@ import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
+import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,11 +86,17 @@ public class StudentProposalFragment extends Fragment implements
                 .getUser().getUsername();
         RetrofitApiClient.getInstance().getDataClient()
                 .getSubmittedProposals(Utility.authHeader(this.getContext()),username)
-                .enqueue(new Callback<List<Proposal>>() {
+                .enqueue(new Callback<List<ProposalResponse>>() {
                     @Override
-                    public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
-                        List<Proposal> proposals = response.body();
-                        if(proposals!=null) {
+                    public void onResponse(Call<List<ProposalResponse>> call, Response<List<ProposalResponse>> response) {
+                        List<ProposalResponse> proposalResps = response.body();
+                        if(proposalResps!=null) {
+                            List<Proposal> proposals = new ArrayList<>();
+                            for(ProposalResponse propResp:proposalResps) {
+                                Proposal prop = new Proposal();
+                                prop.setPropsalDetails(propResp);
+                                proposals.add(prop);
+                            }
                             Log.i(TAG,"no of proposals "+proposals.size());
                             rvAdapter.setProposalList(proposals);
                         } else {
@@ -99,7 +106,7 @@ public class StudentProposalFragment extends Fragment implements
                     }
 
                     @Override
-                    public void onFailure(Call<List<Proposal>> call, Throwable t) {
+                    public void onFailure(Call<List<ProposalResponse>> call, Throwable t) {
                         t.printStackTrace();
                         Log.i(TAG,"failed to fetch new proposals:network error");
                         stopRefreshAnimation();

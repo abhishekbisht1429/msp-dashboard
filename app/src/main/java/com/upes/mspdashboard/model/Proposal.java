@@ -6,7 +6,10 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 import com.upes.mspdashboard.util.WebApiConstants;
+import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
+import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Proposal implements Parcelable {
@@ -22,23 +25,24 @@ public class Proposal implements Parcelable {
         }
     };
 
-    @SerializedName(WebApiConstants.PROPOSAL_ID)
     private int id;
 
-    @SerializedName(WebApiConstants.PROPOSAL_TITLE)
     private String title;
 
-    @SerializedName(WebApiConstants.PROPOSAL_DESCRIPTION)
     private String description;
 
     private Student stu;
 
-    @SerializedName(WebApiConstants.PROPOSAL_MENTOR)
     private Faculty mentor;
 
-    private List<String> teamList;
+    private List<Student> teamList;
 
     private Uri proposalUri;
+
+    private int projectType;
+
+    private int status;
+
     public Proposal() {
 
     }
@@ -46,9 +50,10 @@ public class Proposal implements Parcelable {
         title = in.readString();
         description = in.readString();
         proposalUri = in.readParcelable(getClass().getClassLoader());
-        stu = in.readParcelable(getClass().getClassLoader());
         mentor = in.readParcelable(getClass().getClassLoader());
         in.readList(teamList,getClass().getClassLoader());
+        projectType = in.readInt();
+        status = in.readInt();
     }
 
     @Override
@@ -64,6 +69,12 @@ public class Proposal implements Parcelable {
         parcel.writeParcelable(stu,flags);
         parcel.writeParcelable(mentor,flags);
         parcel.writeList(teamList);
+        parcel.writeInt(projectType);
+        parcel.writeInt(status);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -106,11 +117,43 @@ public class Proposal implements Parcelable {
         this.mentor = mentor;
     }
 
-    public List<String> getTeamList() {
+    public List<Student> getTeamList() {
         return teamList;
     }
 
-    public void setTeamList(List<String> teamList) {
+    public void setTeamList(List<Student> teamList) {
         this.teamList = teamList;
     }
+
+    public void setPropsalDetails(ProposalResponse propResp) {
+        this.id = propResp.getId();
+
+
+        List<Student> teamList = new ArrayList<>();
+        for(UserDetailsResponse udr:propResp.getTeamList()) {
+            teamList.add(new Student.Builder()
+                            .id(udr.getUserCred().getId())
+                            .username(udr.getUserCred().getUsername())
+                            .type(WebApiConstants.UserType.getType(udr.getTypeId()))
+                            .userDetails(udr)
+                            .build());
+        }
+        this.teamList = teamList;
+
+
+        UserDetailsResponse udr = propResp.getMentor();
+        this.mentor = new Faculty.Builder()
+                            .id(udr.getUserCred().getId())
+                            .username(udr.getUserCred().getUsername())
+                            .type(WebApiConstants.UserType.getType(udr.getTypeId()))
+                            .userDetails(udr)
+                            .build();
+
+
+        this.projectType = propResp.getType();
+        this.title = propResp.getTitle();
+        this.description = propResp.getDescription();
+        this.status = propResp.getStatus();
+    }
+
 }
