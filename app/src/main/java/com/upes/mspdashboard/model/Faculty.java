@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.upes.mspdashboard.util.WebApiConstants;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
 public class Faculty extends User implements Parcelable {
     public static final Creator<Faculty> CREATOR = new Creator<Faculty>() {

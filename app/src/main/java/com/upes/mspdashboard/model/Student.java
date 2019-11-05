@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.upes.mspdashboard.util.WebApiConstants;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
 public class Student extends User implements Parcelable {
     public static final Creator<Student> CREATOR = new Creator<Student>() {
@@ -27,6 +27,7 @@ public class Student extends User implements Parcelable {
     private String sapId;
     private String program;
     private float cgpa;
+    private int lock;
 
     public String getFirstname() {
         return firstname;
@@ -64,6 +65,10 @@ public class Student extends User implements Parcelable {
         return cgpa;
     }
 
+    public int getLock() {
+        return lock;
+    }
+
     private Student(int id,String username, String password, WebApiConstants.UserType type) {
         super(id, username, password, type);
     }
@@ -79,6 +84,7 @@ public class Student extends User implements Parcelable {
         sapId = in.readString();
         program = in.readString();
         cgpa = in.readFloat();
+        lock = in.readInt();
     }
 
     @Override
@@ -101,6 +107,7 @@ public class Student extends User implements Parcelable {
         parcel.writeString(sapId);
         parcel.writeString(program);
         parcel.writeFloat(cgpa);
+        parcel.writeInt(lock);
     }
 
     public static class Builder {
@@ -117,6 +124,7 @@ public class Student extends User implements Parcelable {
         private String sapId;
         private String program;
         private float cgpa;
+        private int lock;
 
         public Builder() {
 
@@ -133,6 +141,7 @@ public class Student extends User implements Parcelable {
             //TODO: sap id
             student.program = program;
             student.cgpa = cgpa;
+            student.lock = lock;
             return student;
         }
         public Builder id(int id) {
@@ -200,6 +209,11 @@ public class Student extends User implements Parcelable {
             return this;
         }
 
+        public Builder lock(int lock) {
+            this.lock = lock;
+            return this;
+        }
+
         public Builder userDetails(UserDetailsResponse userDetailsResponse) {
             id = userDetailsResponse.getUserCred().getId();
             firstname = userDetailsResponse.getUserCred().getFirstName();
@@ -211,6 +225,7 @@ public class Student extends User implements Parcelable {
             //sapId = userDetailsResponse.getSapId();
             program = userDetailsResponse.getProgram();
             cgpa = userDetailsResponse.getCgpa();
+            lock = userDetailsResponse.getLock();
             return this;
         }
     }

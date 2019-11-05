@@ -22,8 +22,8 @@ import com.upes.mspdashboard.model.User;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.LoginResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
 import java.io.IOException;
 import java.util.HashMap;

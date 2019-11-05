@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -17,11 +15,11 @@ import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.fragment.student.FacultyDetailsFragment;
 import com.upes.mspdashboard.fragment.student.ProposalSubmissionFragment;
 import com.upes.mspdashboard.model.Faculty;
-import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.GlobalConstants;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.ProposalSubmitResp;
+import com.upes.mspdashboard.util.retrofit.model.request.ProposalSubmissionRequest;
+import com.upes.mspdashboard.util.retrofit.model.response.ProposalSubmitResp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,30 +105,36 @@ public class MentorBookingActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onClickProposalSubmit(Proposal proposal) {
-        makeToast("submitting..."+proposal.getTitle());
+    public void onClickProposalSubmit(ProposalSubmissionRequest proposalReq) {
+        makeToast("submitting..."+ proposalReq.getTitle());
         //create the file part
-        File file = new File(getUploadPathFromUri(proposal.getProposalUri()));
+        File file = new File(getUploadPathFromUri(proposalReq.getProposalUri()));
         RequestBody fileBody = RequestBody.create(MediaType.parse("*/*"),file);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("proposal","proposal",fileBody);
-        Log.i(TAG,"mentor user id : "+proposal.getMentor().getUserId());
-        RequestBody id = RequestBody.create(MediaType.parse("text/plain"),-1+"");
-        RequestBody mentor = RequestBody.create(MediaType.parse("text/plain"),proposal.getMentor().getUserId()+"");
-        RequestBody title = RequestBody.create(MediaType.parse("text/plain"),proposal.getTitle());
-        RequestBody desc = RequestBody.create(MediaType.parse("text/plain"),proposal.getDescription());
+        Log.i(TAG,"mentor user id : "+ proposalReq.getMentor().getUserId());
+        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getMember1().getUserId()+"");
+        RequestBody mem2sap = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getMember2Sap());
+        RequestBody mem3sap = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getMember3Sap());
+
+        RequestBody mentor = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getMentor().getUserId()+"");
+        RequestBody title = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getTitle());
+        RequestBody desc = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getDescription());
 
         RetrofitApiClient.getInstance().getDataClient()
-                .submitProposal(Utility.authHeader(this),id,mentor,title,desc,filePart)
+                .submitProposal(Utility.authHeader(this),id,mem2sap,mentor,title,desc,filePart)
                 .enqueue(new Callback<ProposalSubmitResp>() {
                     @Override
                     public void onResponse(Call<ProposalSubmitResp> call, Response<ProposalSubmitResp> response) {
                         ProposalSubmitResp resp = response.body();
                         if(resp!=null) {
                             Log.i(TAG,"resp not null "+response.code()+" : "+resp.getErrors());
+                            makeToast("Proposal Submitted Successfully");
+                            onBackPressed();
                         } else {
                             ResponseBody respb = response.errorBody();
                             try {
                                 Log.e(TAG, "resp is null " + respb.string() + " : ");
+                                makeToast("Invalid Data!: Please check all the Fields");
                             }catch(IOException ioe) {
                                 ioe.printStackTrace();
                             }

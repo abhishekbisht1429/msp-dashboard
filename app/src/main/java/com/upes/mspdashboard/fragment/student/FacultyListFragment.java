@@ -21,7 +21,7 @@ import com.upes.mspdashboard.model.Faculty;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
 import java.util.ArrayList;
 import java.util.List;

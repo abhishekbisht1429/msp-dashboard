@@ -1,8 +1,8 @@
 package com.upes.mspdashboard.util.retrofit;
 
-import com.upes.mspdashboard.util.retrofit.model.LoginResponse;
-import com.upes.mspdashboard.util.retrofit.model.LogoutResponse;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.LoginResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.LogoutResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
 import java.util.Map;
 

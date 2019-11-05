@@ -98,9 +98,10 @@ public class FacultyHomeActivity extends AppCompatActivity implements
     @Override
     public void onClickViewNewProposal(Proposal proposal) {
         Intent intent = new Intent(this,NewPropDetailActivity.class);
+        Log.i(TAG,proposal.getTitle());
         intent.putExtra(GlobalConstants.PROPOSAL_PARCEL_KEY,proposal);
         startActivity(intent);
-        //finish();//TODO: remove this finish
+        finish();//TODO: remove this finish
 
     }
 

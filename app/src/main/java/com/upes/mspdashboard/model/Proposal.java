@@ -4,12 +4,13 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
 import com.upes.mspdashboard.util.WebApiConstants;
-import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
-import com.upes.mspdashboard.util.retrofit.model.UserDetailsResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.ProposalResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.UserDetailsResponse;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Proposal implements Parcelable {
@@ -31,8 +32,6 @@ public class Proposal implements Parcelable {
 
     private String description;
 
-    private Student stu;
-
     private Faculty mentor;
 
     private List<Student> teamList;
@@ -43,17 +42,43 @@ public class Proposal implements Parcelable {
 
     private int status;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    public int getProjectType() {
+        return projectType;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
     public Proposal() {
 
     }
     protected Proposal(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         description = in.readString();
         proposalUri = in.readParcelable(getClass().getClassLoader());
         mentor = in.readParcelable(getClass().getClassLoader());
-        in.readList(teamList,getClass().getClassLoader());
+        teamList = new ArrayList<>();
+        in.readList(teamList,Student.class.getClassLoader());
         projectType = in.readInt();
         status = in.readInt();
+        long creationTS = in.readLong();
+        long updationTS = in.readLong();
+        createdAt = new Date(creationTS);
+        updatedAt = new Date(updationTS);
     }
 
     @Override
@@ -63,16 +88,21 @@ public class Proposal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeParcelable(proposalUri,flags);
-        parcel.writeParcelable(stu,flags);
         parcel.writeParcelable(mentor,flags);
         parcel.writeList(teamList);
         parcel.writeInt(projectType);
         parcel.writeInt(status);
+        parcel.writeLong(createdAt.getTime());
+        parcel.writeLong(updatedAt.getTime());
     }
 
+    public int getId() {
+        return id;
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -101,14 +131,6 @@ public class Proposal implements Parcelable {
         this.proposalUri = proposalUri;
     }
 
-    public Student getStudent() {
-        return stu;
-    }
-
-    public void setStudent(Student stu) {
-        this.stu = stu;
-    }
-
     public Faculty getMentor() {
         return mentor;
     }
@@ -128,18 +150,21 @@ public class Proposal implements Parcelable {
     public void setPropsalDetails(ProposalResponse propResp) {
         this.id = propResp.getId();
 
-
+        List<UserDetailsResponse> udrList = new ArrayList<>();
+        if(propResp.getMember1()!=null) udrList.add(propResp.getMember1());
+        if(propResp.getMember2()!=null) udrList.add(propResp.getMember2());
+        if(propResp.getMember3()!=null) udrList.add(propResp.getMember3());
+        if(propResp.getMember4()!=null) udrList.add(propResp.getMember4());
         List<Student> teamList = new ArrayList<>();
-        for(UserDetailsResponse udr:propResp.getTeamList()) {
+        for(UserDetailsResponse udr:udrList) {
             teamList.add(new Student.Builder()
-                            .id(udr.getUserCred().getId())
-                            .username(udr.getUserCred().getUsername())
-                            .type(WebApiConstants.UserType.getType(udr.getTypeId()))
-                            .userDetails(udr)
-                            .build());
+                    .id(udr.getUserCred().getId())
+                    .username(udr.getUserCred().getUsername())
+                    .type(WebApiConstants.UserType.getType(udr.getTypeId()))
+                    .userDetails(udr)
+                    .build());
         }
         this.teamList = teamList;
-
 
         UserDetailsResponse udr = propResp.getMentor();
         this.mentor = new Faculty.Builder()
@@ -149,11 +174,16 @@ public class Proposal implements Parcelable {
                             .userDetails(udr)
                             .build();
 
-
         this.projectType = propResp.getType();
         this.title = propResp.getTitle();
         this.description = propResp.getDescription();
         this.status = propResp.getStatus();
+        try {
+            this.createdAt = WebApiConstants.SERVER_DATE_FORMAT.parse(propResp.getCreatedAt());
+            this.updatedAt = WebApiConstants.SERVER_DATE_FORMAT.parse(propResp.getUpdatedAt());
+        } catch(ParseException pE) {
+            pE.printStackTrace();
+        }
     }
 
 }

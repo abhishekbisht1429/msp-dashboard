@@ -40,6 +40,7 @@ public class SessionManager {
     private static final String STU_FIRSTNAME_KEY = "student firstname key";
     private static final String STU_LASTNAME_KEY = "student lastname key";
     private static final String STU_EMAIL_KEY = "student email key";
+    private static final String STU_LOCK_KEY = "student lock key";
 
     private static SessionManager sessionManager;
     private SharedPreferences shPreference;
@@ -126,6 +127,7 @@ public class SessionManager {
         editor.putString(STU_SEMESTER_KEY,student.getSemeser());
         editor.putString(STU_PROGRAM_KEY,student.getProgram());
         editor.putFloat(STU_CGPA_KEY,student.getCgpa());
+        editor.putInt(STU_LOCK_KEY,student.getLock());
     }
 
     /**
@@ -148,6 +150,7 @@ public class SessionManager {
                 .semester(shPreference.getString(STU_SEMESTER_KEY,null))
                 .program(shPreference.getString(STU_PROGRAM_KEY,null))
                 .cgpa(shPreference.getFloat(STU_CGPA_KEY,0.0f))
+                .lock(shPreference.getInt(STU_LOCK_KEY,-1))
                 .build();
         user = student;
     }

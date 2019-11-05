@@ -1,6 +1,5 @@
 package com.upes.mspdashboard.fragment.student;
 
-
 import android.content.Context;
 import android.os.Bundle;
 
@@ -21,7 +20,7 @@ import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.ProposalResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +81,10 @@ public class StudentProposalFragment extends Fragment implements
     }
 
     private void fetchData() {
-        String username = SessionManager.getInstance(this.getContext())
-                .getUser().getUsername();
+        int userid = SessionManager.getInstance(this.getContext())
+                .getUser().getUserId();
         RetrofitApiClient.getInstance().getDataClient()
-                .getSubmittedProposals(Utility.authHeader(this.getContext()),username)
+                .getSubmittedProposals(Utility.authHeader(this.getContext()),userid)
                 .enqueue(new Callback<List<ProposalResponse>>() {
                     @Override
                     public void onResponse(Call<List<ProposalResponse>> call, Response<List<ProposalResponse>> response) {

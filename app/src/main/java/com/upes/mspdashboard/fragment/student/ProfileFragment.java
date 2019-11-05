@@ -17,7 +17,7 @@ import com.upes.mspdashboard.model.Student;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.LogoutResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.LogoutResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

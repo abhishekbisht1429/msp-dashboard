@@ -17,14 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.fasterxml.jackson.databind.ser.impl.PropertyBasedObjectIdGenerator;
 import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.ProposalResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +127,7 @@ public class NewProposalFragment extends Fragment implements
                                 Proposal prop = new Proposal();
                                 prop.setPropsalDetails(propResp);
                                 proposals.add(prop);
+                                Log.i(TAG,prop.getUpdatedAt().toString());
                             }
                             Log.i(TAG,"no of proposals "+proposals.size());
                             rvAdapter.setProposalList(proposals);

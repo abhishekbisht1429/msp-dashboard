@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,7 @@ import com.upes.mspdashboard.util.GlobalConstants;
  * A simple {@link Fragment} subclass.
  */
 public class FacProposalDetailsFragment extends Fragment {
-
-
+    private static String TAG = "FacProposalDetailsFrag";
     private OnFragmentInteractionListener mListener;
     private Proposal proposal;
     private boolean setToolbarAsActionbar;
@@ -66,6 +66,8 @@ public class FacProposalDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         proposal = args.getParcelable(GlobalConstants.PROPOSAL_PARCEL_KEY);
+        if(proposal==null)
+            Log.e(TAG,"null proposal");
         setToolbarAsActionbar = args.getBoolean(GlobalConstants.SET_TOOLBAR_AS_ACTIONBAR);
     }
 

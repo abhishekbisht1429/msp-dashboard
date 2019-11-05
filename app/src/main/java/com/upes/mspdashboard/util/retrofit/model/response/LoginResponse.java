@@ -1,4 +1,4 @@
-package com.upes.mspdashboard.util.retrofit.model;
+package com.upes.mspdashboard.util.retrofit.model.response;
 
 public class LoginResponse {
     String auth_token;

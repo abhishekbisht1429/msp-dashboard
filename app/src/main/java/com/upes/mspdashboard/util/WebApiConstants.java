@@ -3,6 +3,8 @@ package com.upes.mspdashboard.util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+
 public interface WebApiConstants {
 
     /**
@@ -101,9 +103,19 @@ public interface WebApiConstants {
     String PROPOSAL_ID = "id";
     String PROPOSAL_MENTOR = "mentor";
     String PROPOSAL_TEAM_LIST = "members";
+    String PROPOSAL_MEMBER_1 = "member1";
+    String PROPOSAL_MEMBER_2 = "member2";
+    String PROPOSAL_MEMBER_3 = "member3";
+    String PROPOSAL_MEMBER_4 = "member4";
     String PROPOSAL_TYPE = "project_type";
     String PROPOSAL_STATUS = "status";
+    String PROPOSAL_CREATED_AT = "created_at";
+    String PROPOSAL_UPDATED_AT = "updated_at";
+
+    String STUDENT_LOCK = "lock";
     /**
      * ******************************************************
      */
+
+    SimpleDateFormat SERVER_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
 }

@@ -30,8 +30,9 @@ import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.GlobalConstants;
 import com.upes.mspdashboard.util.SessionManager;
 import com.upes.mspdashboard.util.Utility;
+import com.upes.mspdashboard.util.WebApiConstants;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
-import com.upes.mspdashboard.util.retrofit.model.ProposalResponse;
+import com.upes.mspdashboard.util.retrofit.model.response.ProposalResponse;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -167,7 +167,7 @@ public class CurrentProjectFragment extends Fragment implements
 
 
         if(item.getItemId()==R.id.action_download_list) {
-            requestFileCreation("current_projects.csv",GlobalConstants.MIME_TYPE_CSV);
+            requestFileCreation("accepted_projects"+System.currentTimeMillis()+".csv",GlobalConstants.MIME_TYPE_CSV);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -190,7 +190,7 @@ public class CurrentProjectFragment extends Fragment implements
                 .getUser().getUserId();
         Log.i(TAG,"fac_id: "+fac_id);
         RetrofitApiClient.getInstance().getDataClient()
-                .downloadFile(Utility.authHeader(this.getContext()),fac_id)
+                .downloadFile(Utility.authHeader(this.getContext()),fac_id, WebApiConstants.PROPOSAL_STATUS_ACCEPTED)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

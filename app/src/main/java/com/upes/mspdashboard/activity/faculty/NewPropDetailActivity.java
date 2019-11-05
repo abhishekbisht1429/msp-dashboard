@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -13,9 +14,17 @@ import com.upes.mspdashboard.R;
 import com.upes.mspdashboard.fragment.faculty.FacProposalDetailsFragment;
 import com.upes.mspdashboard.model.Proposal;
 import com.upes.mspdashboard.util.GlobalConstants;
+import com.upes.mspdashboard.util.Utility;
+import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NewPropDetailActivity extends AppCompatActivity implements
     FacProposalDetailsFragment.OnFragmentInteractionListener {
+    private static String TAG = "NewPropDetailActivity";
     FrameLayout frameLayout;
     private Proposal proposal;
     @Override
@@ -30,6 +39,8 @@ public class NewPropDetailActivity extends AppCompatActivity implements
     private void retrieveSavedState() {
         Bundle args = getIntent().getExtras();
         proposal = args.getParcelable(GlobalConstants.PROPOSAL_PARCEL_KEY);
+        if(proposal==null)
+            Log.e(TAG,"proposal is null");
     }
 
     void makeToast(String msg) {
@@ -61,9 +72,51 @@ public class NewPropDetailActivity extends AppCompatActivity implements
     public void onInteraction(boolean accepted, Proposal proposal, String msg) {
         makeToast(msg);
         if(accepted) {
-            //TODO: set the status of the proposal to 1
+            RetrofitApiClient.getInstance().getDataClient()
+                    .acceptProposal(Utility.authHeader(this),proposal.getId())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            ResponseBody resp = response.body();
+                            if(resp!=null) {
+                                Log.i(TAG,"Proposal Accepted");
+                                makeToast("Proposal Accepted");
+                            } else {
+                                Log.e(TAG,"response is null");
+                                makeToast("Respone is null");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            t.printStackTrace();
+                            Log.e(TAG,"error while accepting");
+                            makeToast("Some Error occured");
+                        }
+                    });
         } else {
-            //TODO: set the status of the proposal to 2
+            RetrofitApiClient.getInstance().getDataClient()
+                    .rejectProposal(Utility.authHeader(this),proposal.getId())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            ResponseBody resp = response.body();
+                            if(resp!=null) {
+                                Log.i(TAG,"Proposal Rejected");
+                                makeToast("Proposal Rejected");
+                            } else {
+                                Log.e(TAG,"response is null");
+                                makeToast("Respone is null");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            t.printStackTrace();
+                            Log.e(TAG,"error while rejecting");
+                            makeToast("Some Error occured");
+                        }
+                    });
         }
         onBackPressed();
     }

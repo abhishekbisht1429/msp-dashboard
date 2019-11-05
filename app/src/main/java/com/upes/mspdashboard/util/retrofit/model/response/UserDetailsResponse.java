@@ -1,6 +1,7 @@
-package com.upes.mspdashboard.util.retrofit.model;
+package com.upes.mspdashboard.util.retrofit.model.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.upes.mspdashboard.util.WebApiConstants;
 
 public class UserDetailsResponse {
     @SerializedName("user")
@@ -35,9 +36,16 @@ public class UserDetailsResponse {
     
     @SerializedName("cgpa")
     float cgpa;
-    
+
+    @SerializedName(WebApiConstants.STUDENT_LOCK)
+    int lock;
+
     UserDetailsResponse() {
 
+    }
+
+    public int getLock() {
+        return lock;
     }
 
     public int getTypeId() {
@@ -104,6 +112,7 @@ public class UserDetailsResponse {
         public int getId() {
             return id;
         }
+
         public String getUsername() {
             return username;
         }
