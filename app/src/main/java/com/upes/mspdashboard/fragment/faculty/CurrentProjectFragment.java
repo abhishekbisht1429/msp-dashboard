@@ -248,16 +248,19 @@ public class CurrentProjectFragment extends Fragment implements
     private class ProposalVH extends RecyclerView.ViewHolder implements
             View.OnClickListener {
         private TextView tvTitle;
+        private TextView tvDesc;
         private Proposal proposal;
         public ProposalVH(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.txtv_fac_current_project_title);
+            tvDesc = itemView.findViewById(R.id.txtv_fac_current_projects_desc);
             itemView.setOnClickListener(this);
         }
 
         public void bind(Proposal proposal) {
             this.proposal = proposal;
             tvTitle.setText(proposal.getTitle());
+            tvDesc.setText(proposal.getDescription());
         }
 
         @Override
