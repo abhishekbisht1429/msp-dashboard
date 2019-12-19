@@ -138,7 +138,7 @@ public class Student extends User implements Parcelable {
             student.imageUrl = imageUrl;
             student.enrNo = enrNo;
             student.semeser = semeser;
-            //TODO: sap id
+            student.sapId = sapId;
             student.program = program;
             student.cgpa = cgpa;
             student.lock = lock;
@@ -222,7 +222,7 @@ public class Student extends User implements Parcelable {
             imageUrl = userDetailsResponse.getImageUrl();
             enrNo = userDetailsResponse.getEnrNo();
             semeser = userDetailsResponse.getSemester();
-            //sapId = userDetailsResponse.getSapId();
+            sapId = userDetailsResponse.getSapId();
             program = userDetailsResponse.getProgram();
             cgpa = userDetailsResponse.getCgpa();
             lock = userDetailsResponse.getLock();

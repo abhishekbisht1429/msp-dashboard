@@ -13,19 +13,29 @@ card_layout:cardUseCompatPadding="true">
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        card_layout:layout_constraintStart_toStartOf="@+id/view4"
+        card_layout:layout_constraintTop_toTopOf="parent"
+        card_layout:srcCompat="@drawable/project_management" />
+
     <TextView
         android:id="@+id/txtv_fac_new_prop_title"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:text="No Title"
         android:textAlignment="viewStart"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        card_layout:layout_constraintStart_toStartOf="@+id/view4"
-        card_layout:layout_constraintTop_toTopOf="parent" />
+        card_layout:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        card_layout:layout_constraintStart_toEndOf="@+id/imageView7"
+        card_layout:layout_constraintTop_toTopOf="@+id/imageView7" />
 
     <TextView
         android:id="@+id/txtv_fac_new_prop_desc"
@@ -55,7 +65,7 @@ card_layout:cardUseCompatPadding="true">
         android:background="@android:color/darker_gray"
         card_layout:layout_constraintEnd_toEndOf="parent"
         card_layout:layout_constraintStart_toEndOf="@+id/view2"
-        card_layout:layout_constraintTop_toBottomOf="@+id/txtv_fac_new_prop_title" />
+        card_layout:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <View
         android:id="@+id/view2"

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_download_list"
         android:enabled="true"
-        android:icon="@drawable/download_icon"
+        android:icon="@drawable/download"
         android:title="Download"
         android:visible="true"
         app:showAsAction="always" />

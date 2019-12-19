@@ -1,5 +1,7 @@
 package com.upes.mspdashboard.util.retrofit;
 
+import com.upes.mspdashboard.util.WebApiConstants;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,10 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author reckoner1429
  */
 public class RetrofitApiClient {
-    private static final boolean PRODUCTION  = false;
-    private static final String TEST_URL = "http://192.168.43.169";
-    private static final String PRODUCTION_URL = "";
-    private static final String BASE_URL = PRODUCTION?PRODUCTION_URL:TEST_URL;
+    private static final String BASE_URL =
+            WebApiConstants.PRODUCTION?WebApiConstants.PRODUCTION_URL:WebApiConstants.TEST_URL;
     private Retrofit retrofit;
     private static  RetrofitApiClient apiClient;
     private AuthClient authClient;

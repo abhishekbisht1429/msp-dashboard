@@ -265,7 +265,7 @@ public class CurrentProjectFragment extends Fragment implements
 
         @Override
         public void onClick(View view) {
-            //TODO: show current project details
+            mListener.onClickViewCurrentProposal(proposal);
         }
     }
     private class RVAdapter extends RecyclerView.Adapter<ProposalVH> {

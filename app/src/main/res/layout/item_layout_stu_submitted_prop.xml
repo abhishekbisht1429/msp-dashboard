@@ -13,19 +13,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            card_layout:layout_constraintStart_toStartOf="@+id/view4"
+            card_layout:layout_constraintTop_toTopOf="parent"
+            card_layout:srcCompat="@drawable/project_management" />
+
         <TextView
             android:id="@+id/txtv_stu_submitted_prop_title"
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:text="No Title"
             android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            card_layout:layout_constraintStart_toStartOf="@+id/view4"
-            card_layout:layout_constraintTop_toTopOf="parent" />
+            card_layout:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            card_layout:layout_constraintStart_toEndOf="@+id/imageView6"
+            card_layout:layout_constraintTop_toTopOf="@+id/imageView6" />
 
         <TextView
             android:id="@+id/txtv_stu_submitted_prop_desc"
@@ -54,14 +64,14 @@
             android:layout_marginEnd="8dp"
             android:background="@android:color/darker_gray"
             card_layout:layout_constraintEnd_toEndOf="parent"
-            card_layout:layout_constraintStart_toEndOf="@+id/view2"
-            card_layout:layout_constraintTop_toBottomOf="@+id/txtv_stu_submitted_prop_title" />
+            card_layout:layout_constraintStart_toEndOf="@+id/view_frag_stu_prop_status"
+            card_layout:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/view_frag_stu_prop_status"
             android:layout_width="8dp"
             android:layout_height="0dp"
-            android:background="@color/colorAccent"
+            android:background="#D50000"
             card_layout:layout_constraintBottom_toBottomOf="parent"
             card_layout:layout_constraintStart_toStartOf="parent"
             card_layout:layout_constraintTop_toTopOf="parent" />

@@ -17,6 +17,8 @@ import com.upes.mspdashboard.util.GlobalConstants;
 import com.upes.mspdashboard.util.Utility;
 import com.upes.mspdashboard.util.retrofit.RetrofitApiClient;
 
+import java.io.IOException;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +35,7 @@ public class NewPropDetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_new_prop_detail);
         frameLayout = findViewById(R.id.frame_layout_act_fac_new_prop);
         retrieveSavedState();
-        setCurrentFragment(FacProposalDetailsFragment.newInstance(proposal),false);
+        setCurrentFragment(FacProposalDetailsFragment.newInstance(proposal, true),false);
     }
 
     private void retrieveSavedState() {
@@ -82,8 +84,14 @@ public class NewPropDetailActivity extends AppCompatActivity implements
                                 Log.i(TAG,"Proposal Accepted");
                                 makeToast("Proposal Accepted");
                             } else {
+                                try {
+                                    Log.e(TAG, "error : " + response.errorBody().string());
+                                }catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
                                 Log.e(TAG,"response is null");
                                 makeToast("Respone is null");
+                                makeToast("Cannot Accept Proposal");
                             }
                         }
 
@@ -105,6 +113,11 @@ public class NewPropDetailActivity extends AppCompatActivity implements
                                 Log.i(TAG,"Proposal Rejected");
                                 makeToast("Proposal Rejected");
                             } else {
+                                try {
+                                    Log.e(TAG, "error : " + response.errorBody().string());
+                                }catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
                                 Log.e(TAG,"response is null");
                                 makeToast("Respone is null");
                             }

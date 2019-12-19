@@ -101,7 +101,7 @@ public class FacultyHomeActivity extends AppCompatActivity implements
         Log.i(TAG,proposal.getTitle());
         intent.putExtra(GlobalConstants.PROPOSAL_PARCEL_KEY,proposal);
         startActivity(intent);
-        finish();//TODO: remove this finish
+        //finish();
 
     }
 
@@ -116,6 +116,10 @@ public class FacultyHomeActivity extends AppCompatActivity implements
 
     @Override
     public void onClickViewCurrentProposal(Proposal proposal) {
-        //TODO: open current project activity
+        Intent intent = new Intent(this,CurrentProjectActivty.class);
+        Log.i(TAG,proposal.getTitle());
+        intent.putExtra(GlobalConstants.PROPOSAL_PARCEL_KEY,proposal);
+        startActivity(intent);
+        //finish();
     }
 }

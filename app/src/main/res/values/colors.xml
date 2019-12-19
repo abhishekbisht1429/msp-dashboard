@@ -2,7 +2,10 @@
 <resources>
     <color name="colorPrimary">#FF2C2C</color>
     <color name="colorPrimaryDark">#C71C1C</color>
-    <color name="colorAccent">#3E41E0</color>
+    <color name="colorAccent">#4fa5d5</color>
     <color name="upes_yellow">#F3DD17</color>
     <color name="sky_blue">#4fa5d5</color>
+    <color name="prop_accepted">#64DD17</color>
+    <color name="prop_submitted">#FFD600</color>
+    <color name="prop_rejected">#D50000</color>
 </resources>

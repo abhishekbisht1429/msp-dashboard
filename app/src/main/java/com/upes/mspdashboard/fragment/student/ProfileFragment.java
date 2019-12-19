@@ -80,6 +80,7 @@ public class ProfileFragment extends Fragment implements
         txtVExtra.setText(student.getProgram());
         txtVEnrNo.setText(student.getEnrNo());
         txtVcgpa.setText(student.getCgpa()+"");
+        txtVSapId.setText(student.getSapId());
         txtVsem.setText(student.getSemeser());
         txtVProgram.setText(student.getProgram());
     }

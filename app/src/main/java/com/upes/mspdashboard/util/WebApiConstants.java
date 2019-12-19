@@ -8,6 +8,16 @@ import java.text.SimpleDateFormat;
 public interface WebApiConstants {
 
     /**
+     * ******************************************************
+     */
+    boolean PRODUCTION  = false;
+    String TEST_URL = "http://192.168.43.169";
+    String PRODUCTION_URL = "";
+    /**
+     * ********************************************************
+     */
+
+    /**
      * ****************************************************
      * Urls for the backend
      */
@@ -113,6 +123,7 @@ public interface WebApiConstants {
     String PROPOSAL_UPDATED_AT = "updated_at";
 
     String STUDENT_LOCK = "lock";
+    String STUDENT_SAP_ID = "sap_id";
     /**
      * ******************************************************
      */

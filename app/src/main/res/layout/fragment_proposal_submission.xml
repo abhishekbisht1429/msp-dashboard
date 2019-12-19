@@ -41,6 +41,7 @@
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -91,6 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Member SAP ID"
+                    android:drawableStart="@drawable/ic_person_black_24dp"
+                    android:drawablePadding="8dp"
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,6 +108,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Member SAP ID"
+                    android:drawableStart="@drawable/ic_person_black_24dp"
+                    android:drawablePadding="8dp"
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
@@ -155,6 +160,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_title"
+                android:drawablePadding="8dp"
                 android:hint="Title"
                 android:textColor="#000000" />
         </com.google.android.material.textfield.TextInputLayout>

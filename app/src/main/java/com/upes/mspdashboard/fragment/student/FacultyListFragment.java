@@ -141,7 +141,7 @@ public class FacultyListFragment extends Fragment implements
 
         public void bind(Faculty faculty) {
             tvName.setText(faculty.getFirstname()+" "+faculty.getLastname());
-            tvDetails.setText(faculty.getFieldOfStudy());
+            tvDetails.setText(faculty.getDepartment());
             this.faculty = faculty;
         }
 

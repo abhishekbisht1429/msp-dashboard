@@ -37,6 +37,9 @@ public class UserDetailsResponse {
     @SerializedName("cgpa")
     float cgpa;
 
+    @SerializedName(WebApiConstants.STUDENT_SAP_ID)
+    String sapId;
+
     @SerializedName(WebApiConstants.STUDENT_LOCK)
     int lock;
 
@@ -92,6 +95,9 @@ public class UserDetailsResponse {
         return cgpa;
     }
 
+    public String getSapId() {
+        return sapId;
+    }
 
     public class UserCred {
         @SerializedName("id")

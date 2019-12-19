@@ -34,7 +34,7 @@ public class FacultyDetailsFragment extends Fragment {
     private boolean setToolbarAsActionbar;
     private TextView txtvDepartment;
     private TextView txtvAoS;
-    private TextView txtvName;
+    private TextView txtvEmail;
 
     public FacultyDetailsFragment() {
         // Required empty public constructor
@@ -83,10 +83,10 @@ public class FacultyDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_faculty_details, container, false);
-        txtvName = view.findViewById(R.id.txtv_stu_fac_name);
         toolbar = view.findViewById(R.id.toolbar_fac_details_stu);
         txtvDepartment = view.findViewById(R.id.txtv_stu_fac_prof_dept);
         txtvAoS = view.findViewById(R.id.txtv_stu_fac_prof_area_of_expt);
+        txtvEmail = view.findViewById(R.id.txtv_frag_fac_details_email);
         fabNewProposal = view.findViewById(R.id.fab_fac_details_stu);
         fabNewProposal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +106,7 @@ public class FacultyDetailsFragment extends Fragment {
         toolbar.setTitle(faculty.getFirstname()+" "+faculty.getLastname());
         txtvDepartment.setText(faculty.getDepartment());
         txtvAoS.setText(faculty.getFieldOfStudy());
+        txtvEmail.setText(faculty.getEmail());
     }
 
     public interface OnFragmentInteractionListener {

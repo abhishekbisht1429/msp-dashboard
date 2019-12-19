@@ -42,74 +42,147 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/divider_shape"
-            android:orientation="vertical"
-            android:showDividers="middle">
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true">
 
-            <Button
-                android:id="@+id/txtv_stu_fac_name"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                android:background="@drawable/box_border"
+                android:divider="@drawable/divider_shape"
+                android:orientation="vertical"
                 android:padding="8dp"
-                android:text="Detail 5"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:showDividers="middle">
 
-            <TextView
-                android:id="@+id/txtv_stu_fac_prof_dept"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:text="department"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtv_stu_fac_prof_area_of_expt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:text="Area of Study"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat" />
+                    <TextView
+                        android:id="@+id/txtv_stu_fac_details_label_dept"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/txt_semester"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:text="Detail 3"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat" />
+                        android:text="Department" />
 
-            <TextView
-                android:id="@+id/txtv_program"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:text="Detail 4"
-                android:textAlignment="textStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/department" />
+
+                        <TextView
+                            android:id="@+id/txtv_stu_fac_prof_dept"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center|left"
+                            android:padding="8dp"
+                            android:paddingStart="16dp"
+                            android:text="department"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtv_frag_fac_details_label_aos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Area of Study" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/study" />
+
+                        <TextView
+                            android:id="@+id/txtv_stu_fac_prof_area_of_expt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center|left"
+                            android:padding="8dp"
+                            android:text="Area of Study"
+                            android:paddingStart="16dp"
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtv_frag_fac_details_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email " />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="0"
+                            app:srcCompat="@drawable/email" />
+
+                        <TextView
+                            android:id="@+id/txtv_frag_fac_prof_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center|start"
+                            android:padding="8dp"
+                            android:text="Email "
+                            android:paddingStart="16dp"
+                            android:textAlignment="textStart"
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,6 +191,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        app:fabSize="normal"
+        android:backgroundTint="@color/sky_blue"
         android:src="@android:drawable/ic_input_add" />"
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

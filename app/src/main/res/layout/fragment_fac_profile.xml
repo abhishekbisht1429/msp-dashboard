@@ -56,7 +56,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
+            android:background="@drawable/box_border"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -84,44 +85,32 @@
                     android:background="@android:color/transparent"
                     android:padding="8dp"
                     android:text="Area of Study"
-                    android:textAlignment="center"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_study"
+                    android:gravity="center|left"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
 
                 <TextView
-                    android:id="@+id/txtv_fac_prof_dept"
+                    android:id="@+id/txtv_fac_prof_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:padding="8dp"
-                    android:textAlignment="textStart"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_email"
+                    android:gravity="center|left"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <TextView
-                    android:id="@+id/txt_semester"
+                    android:id="@+id/txtv_frag_fac_prof_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:padding="8dp"
-                    android:textAlignment="textStart"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_cell_phone"
+                    android:gravity="center|left"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
-
-                <TextView
-                    android:id="@+id/txtv_program"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="8dp"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-                <Button
-                    android:id="@+id/txtv_cgpa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="8dp"
-                    android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <Button
                     android:id="@+id/btn_fac_logout"

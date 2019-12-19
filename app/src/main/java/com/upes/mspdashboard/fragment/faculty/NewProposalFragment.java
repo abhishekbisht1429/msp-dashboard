@@ -96,8 +96,13 @@ public class NewProposalFragment extends Fragment implements
         rvAdapter = new RVAdapter();
         rv.setAdapter(rvAdapter);
         swrLayout.setOnRefreshListener(this);
-        fetchData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchData();
     }
 
     private void showNoData(boolean show) {

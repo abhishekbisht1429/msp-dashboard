@@ -30,9 +30,11 @@ import static android.view.View.GONE;
  */
 public class FacProposalDetailsFragment extends Fragment {
     private static String TAG = "FacProposalDetailsFrag";
+    private static String OPERATION_MODE_KEY = "fragment operation mode key";
     private OnFragmentInteractionListener mListener;
     private Proposal proposal;
     private boolean setToolbarAsActionbar;
+    private boolean newPropOperationMode;
     private Toolbar toolbar;
     private FloatingActionButton fabAccept;
     private FloatingActionButton fabReject;
@@ -47,10 +49,11 @@ public class FacProposalDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static Fragment newInstance(Proposal proposal) {
+    public static Fragment newInstance(Proposal proposal, boolean facnewProp) {
         Fragment fragment = new FacProposalDetailsFragment();
         Bundle args = new Bundle();
         args.putParcelable(GlobalConstants.PROPOSAL_PARCEL_KEY,proposal);
+        args.putBoolean(OPERATION_MODE_KEY,facnewProp);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +80,7 @@ public class FacProposalDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         proposal = args.getParcelable(GlobalConstants.PROPOSAL_PARCEL_KEY);
+        newPropOperationMode = args.getBoolean(OPERATION_MODE_KEY);
         if(proposal==null)
             Log.e(TAG,"null proposal");
         setToolbarAsActionbar = args.getBoolean(GlobalConstants.SET_TOOLBAR_AS_ACTIONBAR);
@@ -140,6 +144,11 @@ public class FacProposalDetailsFragment extends Fragment {
         }
         for(;i<tvList.size();++i)
             tvList.get(i).setVisibility(GONE);
+
+        if(!newPropOperationMode) {
+            fabAccept.setVisibility(GONE);
+            fabReject.setVisibility(GONE);
+        }
     }
     public interface OnFragmentInteractionListener {
         void onInteraction(boolean accepted, Proposal proposal,String msg);

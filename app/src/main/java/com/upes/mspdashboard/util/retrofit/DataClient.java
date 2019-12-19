@@ -30,6 +30,7 @@ public interface DataClient {
     Call<ProposalSubmitResp> submitProposal(@HeaderMap Map<String, String> headers,
                                             @Part("member1") RequestBody members,
                                             @Part("member2_sapid") RequestBody member2Sap,
+                                            @Part("member3_sapid") RequestBody member3Sap,
                                             @Part("mentor") RequestBody mentor,
                                             @Part("title") RequestBody title,
                                             @Part ("abstract") RequestBody desc,

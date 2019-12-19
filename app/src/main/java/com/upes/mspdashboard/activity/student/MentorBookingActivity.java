@@ -108,7 +108,12 @@ public class MentorBookingActivity extends AppCompatActivity implements
     public void onClickProposalSubmit(ProposalSubmissionRequest proposalReq) {
         makeToast("submitting..."+ proposalReq.getTitle());
         //create the file part
-        File file = new File(getUploadPathFromUri(proposalReq.getProposalUri()));
+        String uploadFilePath = getUploadPathFromUri(proposalReq.getProposalUri());
+        if(uploadFilePath==null) {
+            makeToast("Please select a Proposal to Upload");
+            return;
+        }
+        File file = new File(uploadFilePath);
         RequestBody fileBody = RequestBody.create(MediaType.parse("*/*"),file);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("proposal","proposal",fileBody);
         Log.i(TAG,"mentor user id : "+ proposalReq.getMentor().getUserId());
@@ -121,7 +126,7 @@ public class MentorBookingActivity extends AppCompatActivity implements
         RequestBody desc = RequestBody.create(MediaType.parse("text/plain"), proposalReq.getDescription());
 
         RetrofitApiClient.getInstance().getDataClient()
-                .submitProposal(Utility.authHeader(this),id,mem2sap,mentor,title,desc,filePart)
+                .submitProposal(Utility.authHeader(this),id,mem2sap,mem3sap,mentor,title,desc,filePart)
                 .enqueue(new Callback<ProposalSubmitResp>() {
                     @Override
                     public void onResponse(Call<ProposalSubmitResp> call, Response<ProposalSubmitResp> response) {
@@ -134,7 +139,7 @@ public class MentorBookingActivity extends AppCompatActivity implements
                             ResponseBody respb = response.errorBody();
                             try {
                                 Log.e(TAG, "resp is null " + respb.string() + " : ");
-                                makeToast("Invalid Data!: Please check all the Fields");
+                                makeToast("You cannot submit a proposal with the provided Data");
                             }catch(IOException ioe) {
                                 ioe.printStackTrace();
                             }

@@ -71,8 +71,8 @@ public class Faculty extends User implements Parcelable {
         imageUrl = in.readString();
         fieldOfStudy = in.readString();
         slotsOccupied = in.readInt();
-        department = in.readString();
         phoneNo = in.readString();
+        department = in.readString();
     }
 
     @Override

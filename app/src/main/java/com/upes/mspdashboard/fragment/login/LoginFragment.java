@@ -73,7 +73,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         etPassword = view.findViewById(R.id.edit_text_password);
         btnLogin.setOnClickListener(this);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Faculty Login");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Login");
         return view;
     }
 
@@ -132,36 +132,42 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                                         @Override
                                         public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
                                             UserDetailsResponse uResponse = response.body();
-                                            if(uResponse!=null &&
-                                                    uType == WebApiConstants.UserType.getType(uResponse.getTypeId())) {
-                                                Log.i(TAG,"user type : "+uResponse.getTypeId());
-                                                User user;
-                                                Log.i(TAG,uResponse.getPhoneNo()+"");
-                                                Log.i(TAG,uResponse.getEnrNo()+"");
-                                                int sessionType;
-                                                if(uType== WebApiConstants.UserType.PROFESSOR) {
-                                                    user = new Faculty.Builder()
-                                                            .username(username)
-                                                            .password(password)
-                                                            .type(uType)
-                                                            .userDetails(uResponse)
-                                                            .build();
-                                                    sessionType = SessionManager.SESSION_TYPE_FACULTY;
+                                            if(uResponse!=null) {
+                                                if((uType==WebApiConstants.UserType.STUDENT &&
+                                                        WebApiConstants.UserType.getType(uResponse.getTypeId())== WebApiConstants.UserType.STUDENT)
+                                                    || (uType== WebApiConstants.UserType.PROFESSOR &&
+                                                        WebApiConstants.UserType.getType(uResponse.getTypeId()) != WebApiConstants.UserType.STUDENT)) {
+                                                    Log.i(TAG, "user type : " + uResponse.getTypeId());
+                                                    User user;
+                                                    Log.i(TAG, uResponse.getPhoneNo() + "");
+                                                    Log.i(TAG, uResponse.getEnrNo() + "");
+                                                    int sessionType;
+                                                    if (uType == WebApiConstants.UserType.STUDENT) {
+                                                        user = new Student.Builder()
+                                                                .username(username)
+                                                                .password(password)
+                                                                .type(uType)
+                                                                .userDetails(uResponse)
+                                                                .build();
+                                                        sessionType = SessionManager.SESSION_TYPE_STUDENT;
+                                                    } else {
+                                                        user = new Faculty.Builder()
+                                                                .username(username)
+                                                                .password(password)
+                                                                .type(uType)
+                                                                .userDetails(uResponse)
+                                                                .build();
+                                                        sessionType = SessionManager.SESSION_TYPE_FACULTY;
+                                                    }
+                                                    //TODO: add else if clauses for HOD and AC
+                                                    SessionManager.getInstance(LoginFragment.this.getContext())
+                                                            .login(loginResponse.getAuthToken(), sessionType, user);
+                                                    mListener.onLogin(true, user, null);
                                                 } else {
-                                                    user = new Student.Builder()
-                                                            .username(username)
-                                                            .password(password)
-                                                            .type(uType)
-                                                            .userDetails(uResponse)
-                                                            .build();
-                                                    sessionType = SessionManager.SESSION_TYPE_STUDENT;
+                                                    Log.i(TAG,"Type mismatch");
                                                 }
-                                                //TODO: add else if clauses for HOD and AC
-                                                SessionManager.getInstance(LoginFragment.this.getContext())
-                                                        .login(loginResponse.getAuthToken(),sessionType,user);
-                                                mListener.onLogin(true,user,null );
                                             } else {
-                                                Log.i(TAG,"usertype response is null or utype mismatch");
+                                                Log.i(TAG,"usertype response is null");
                                                 try {
                                                     Log.i(TAG, response.errorBody().string());
                                                 }catch(Exception e) {

@@ -33,6 +33,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
     private Faculty faculty;
     private TextView txtVAreaofStudy;
+    private TextView txtVEmail;
+    private TextView txtVPhone;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,6 +60,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         txtVName = view.findViewById(R.id.text_view_fac_profile_name);
         txtVExtra = view.findViewById(R.id.text_view_fac_profile_extra);
         txtVAreaofStudy = view.findViewById(R.id.txtv_fac_prof_area_of_expt);
+        txtVEmail = view.findViewById(R.id.txtv_fac_prof_email);
+        txtVPhone = view.findViewById(R.id.txtv_frag_fac_prof_phone);
         btnLogout.setOnClickListener(this);
         setFacultyDetails();
         return view;
@@ -67,6 +71,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         txtVName.setText(faculty.getFirstname()+" "+faculty.getLastname());
         txtVExtra.setText(faculty.getDepartment()+" Department");
         txtVAreaofStudy.setText(faculty.getFieldOfStudy());
+        txtVEmail.setText(faculty.getEmail());
+        txtVPhone.setText(faculty.getPhoneNo());
     }
     @Override
     public void onAttach(Context context) {
